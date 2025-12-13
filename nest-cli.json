@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/socialnetwork-api/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/socialnetwork-api/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/socialnetwork-api",
+  "projects": {
+    "files-api": {
+      "type": "application",
+      "root": "apps/files-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/files-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/files-api/tsconfig.app.json"
+      }
+    },
+    "socialnetwork-api": {
+      "type": "application",
+      "root": "apps/socialnetwork-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/socialnetwork-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/socialnetwork-api/tsconfig.app.json"
+      }
+    }
+  }
+}
