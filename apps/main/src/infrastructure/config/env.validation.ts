@@ -1,5 +1,13 @@
 import { plainToInstance } from 'class-transformer';
-import { IsEnum, IsNumber, Max, Min, validateSync } from 'class-validator';
+import {
+  IsBoolean,
+  IsEnum,
+  IsNumber,
+  IsString,
+  Max,
+  Min,
+  validateSync,
+} from 'class-validator';
 
 enum Environment {
   Development = 'development',
@@ -19,24 +27,24 @@ class EnvironmentVariables {
   @Max(65535)
   PORT: number;
 
-  // @IsString()
-  // DATABASE_URL: string;
-  //
-  // @IsNumber()
-  // EMAIL_CONFIRMATION_CODE_LIFETIME_SECS: number;
-  //
-  // @IsBoolean()
-  // INCLUDE_TESTING_MODULE: boolean;
-  //
-  // @IsString()
-  // JWT_SECRET_KEY: string;
-  //
-  // @IsBoolean()
-  // DB_LOGGING: boolean;
-  //
-  // @IsString()
-  // MAIL_MODULE_HOST: string;
-  //
+  @IsString()
+  DB_USERNAME: string;
+
+  @IsString()
+  DB_HOST: string;
+
+  @IsString()
+  DB_PORT: string;
+
+  @IsString()
+  DB_PASSWORD: string;
+
+  @IsBoolean()
+  DB_LOGGING: boolean;
+
+  @IsString()
+  DB_NAME: string;
+
   // @IsString()
   // MAIL_MODULE_USER: string;
   //
