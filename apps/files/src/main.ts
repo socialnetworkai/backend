@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import { FilesApiModule } from './files-api.module';
+import { FilesModule } from './files.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(FilesApiModule);
+  const app = await NestFactory.create(FilesModule);
   await app.listen(process.env.port ?? 3001);
 }
 bootstrap();
