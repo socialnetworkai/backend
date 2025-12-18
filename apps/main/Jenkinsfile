@@ -15,6 +15,17 @@ pipeline {
     }
 
     stages {
+        stage('Install dependencies') {
+            steps {
+                script {
+                    sh '''
+                        echo "Installing dependencies..."
+                        yarn install --frozen-lockfile
+                        # или npm ci
+                    '''
+                }
+            }
+        }
         stage('Clone repository') {
             steps {
                 checkout scm
@@ -51,6 +62,8 @@ pipeline {
                                     # Проверяем версии
                                     echo "Node version: $(node --version)"
                                     echo "Yarn version: $(yarn --version)"
+
+                                    yarn global add cross-env
 
                                     # Запускаем тесты
                                     yarn test:e2e
