@@ -52,11 +52,6 @@ pipeline {
                                     echo "Node version: $(node --version)"
                                     echo "Yarn version: $(yarn --version)"
 
-                                    yarn install --production=false
-                                    yarn add jest@29 cross-env --dev
-                                    yarn global add jest
-                                    yarn global add cross-env
-
                                     # Запускаем тесты
                                     yarn test:e2e
                                 '''
