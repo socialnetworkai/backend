@@ -52,6 +52,7 @@ pipeline {
                                     echo "Node version: $(node --version)"
                                     echo "Yarn version: $(yarn --version)"
 
+                                    yarn global add jest
                                     yarn global add cross-env
 
                                     # Запускаем тесты
