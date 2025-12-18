@@ -36,12 +36,25 @@ pipeline {
         stage('e2e tests') {
             steps {
                 script {
-                    sh '''
-                       export NVM_DIR="$HOME/.nvm"
-                       [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                       nvm use --lts
-                       yarn test:e2e
-                    '''
+                                sh '''
+                                    # Явно указываем путь к nvm
+                                    export NVM_DIR="/var/lib/jenkins/.nvm"
+
+                                    # Проверяем существование nvm
+                                    if [ -f "$NVM_DIR/nvm.sh" ]; then
+                                        . "$NVM_DIR/nvm.sh"
+                                        nvm use --lts || nvm install --lts
+                                    else
+                                        echo "NVM not found, using system Node.js"
+                                    fi
+
+                                    # Проверяем версии
+                                    echo "Node version: $(node --version)"
+                                    echo "Yarn version: $(yarn --version)"
+
+                                    # Запускаем тесты
+                                    yarn test:e2e
+                                '''
                 }
             }
         }
