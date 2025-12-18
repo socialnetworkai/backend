@@ -27,23 +27,23 @@ class EnvironmentVariables {
   @Max(65535)
   PORT: number;
 
-  @IsString()
-  DB_USERNAME: string;
-
-  @IsString()
-  DB_HOST: string;
-
-  @IsString()
-  DB_PORT: string;
-
-  @IsString()
-  DB_PASSWORD: string;
-
-  @IsBoolean()
-  DB_LOGGING: boolean;
-
-  @IsString()
-  DB_NAME: string;
+  // @IsString()
+  // DB_USERNAME: string;
+  //
+  // @IsString()
+  // DB_HOST: string;
+  //
+  // @IsString()
+  // DB_PORT: string;
+  //
+  // @IsString()
+  // DB_PASSWORD: string;
+  //
+  // @IsBoolean()
+  // DB_LOGGING: boolean;
+  //
+  // @IsString()
+  // DB_NAME: string;
 
   // @IsString()
   // MAIL_MODULE_USER: string;

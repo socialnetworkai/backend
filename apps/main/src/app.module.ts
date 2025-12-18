@@ -5,6 +5,7 @@ import { envFilePaths } from './infrastructure/config/env-file-paths';
 import { validate } from './infrastructure/config/env.validation';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { join } from 'node:path';
 
 @Module({
   imports: [
@@ -18,16 +19,24 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: configService.get('DB_HOST'),
-        port: configService.get('DB_PORT'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_NAME'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
-        logging: configService.get<boolean>('DB_LOGGING'),
-        cli: {
-          migrationsDir: 'src/migrations',
+        url: configService.get('DATABASE_URL'),
+        entities: [join(__dirname, '**', '*.entity.{ts,js}')],
+        migrations: [join(__dirname, 'migrations', '*.{ts,js}')],
+        migrationsTableName: 'typeorm_migrations',
+        migrationsRun: process.env.NODE_ENV === 'production',
+        // Настройки SSL для Neon
+        ssl: configService.get('DB_SSL', true)
+          ? {
+              rejectUnauthorized: false, // Важно для Neon!
+            }
+          : false,
+        // Дополнительные настройки
+        synchronize: process.env.NODE_ENV !== 'production', // false для продакшена!
+        logging: process.env.NODE_ENV !== 'production',
+        extra: {
+          connectionLimit: 10,
+          // Поддержка serverless (важно для Neon)
+          sslmode: 'require',
         },
       }),
     }),
