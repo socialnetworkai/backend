@@ -26,8 +26,3 @@ spec:
                  secretKeyRef:
                    name: soc-net-main-production-config-secret
                    key: DATABASE_URL
-             - name: PORT
-               valueFrom:
-                 secretKeyRef:
-                   name: soc-net-main-production-config-secret
-                   key: PORT
