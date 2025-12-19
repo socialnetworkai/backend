@@ -30,6 +30,16 @@ pipeline {
 
                         # Или через npm
                         # npm install --production=false --ignore-scripts --legacy-peer-deps
+                        if [ -f .nvmrc ]; then
+                        echo "Found .nvmrc file. Content:"cat .nvmrc echo ""
+
+                        # Показываем hex dump для поиска скрытых символов
+                        echo "Hex dump:"
+                        hexdump -C .nvmrc
+
+                        # Удаляем проблемный .nvmrc
+                        echo "Removing problematic .nvmrc..."
+                        rm .nvmrc
                     '''
                 }
             }
