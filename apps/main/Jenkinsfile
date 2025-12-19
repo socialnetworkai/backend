@@ -21,68 +21,6 @@ pipeline {
             }
         }
 
-        stage('Clean .nvmrc files') {
-            steps {
-                script {
-                    sh '''
-                        echo "=== Removing ALL .nvmrc files ==="
-
-                        # Удаляем ВСЕ .nvmrc файлы в workspace
-                        find /home/abazunts/jenkins/workspace/prd-soc-net-main-pull-request \
-                            -name ".nvmrc" \
-                            -type f \
-                            -delete 2>/dev/null || true
-
-                        echo "✅ All .nvmrc files removed"
-                    '''
-                }
-            }
-        }
-
-        stage('Clear NVM cache completely') {
-            steps {
-                script {
-                    sh '''
-                        echo "=== COMPLETE NVM CACHE CLEAR ==="
-
-                        # 1. Kill any NVM processes
-                        pkill -f "nvm" 2>/dev/null || true
-
-                        # 2. Remove all NVM environment variables
-                        for var in $(env | grep -i nvm | cut -d= -f1); do
-                            unset "$var" 2>/dev/null || true
-                        done
-
-                        # 3. Clean PATH from NVM
-                        CLEAN_PATH=""
-                        IFS=':' read -ra PATHS <<< "$PATH"
-                        for path in "${PATHS[@]}"; do
-                            if [[ ! "$path" =~ /\.nvm/ ]]; then
-                                CLEAN_PATH="${CLEAN_PATH}:${path}"
-                            fi
-                        done
-                        export PATH="${CLEAN_PATH#:}"
-
-                        # 4. Remove cache files
-                        rm -rf "$HOME/.nvm/.cache" 2>/dev/null || true
-                        rm -f "$HOME/.npm/_cacache/*" 2>/dev/null || true
-
-                        # 5. Clear bash hash table
-                        hash -r 2>/dev/null || true
-
-                        # 6. Start fresh shell (optional)
-                        exec bash --norc --noprofile -c "
-                            echo 'Fresh shell started'
-                            export PATH=\"/home/abazunts/.nvm/versions/node/v20.5.1/bin:$PATH\"
-                            node --version
-                        "
-
-                        echo "✅ NVM cache cleared"
-                    '''
-                }
-            }
-        }
-
         stage('Install dependencies') {
             steps {
                 script {
@@ -108,14 +46,31 @@ pipeline {
 //                 }
 //             }
 //         }
-        stage('e2e tests') {
+        stage('e2e tests - fixed') {
             steps {
                 script {
                     sh '''
-                       export NVM_DIR="$HOME/.nvm"
-                       [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                       nvm use --lts
-                       yarn test:e2e
+                        # КОРОТКОЕ И ЭФФЕКТИВНОЕ РЕШЕНИЕ:
+
+                        # 1. Полностью игнорируем NVM
+                        # 2. Используем прямой путь к Node.js
+
+                        # Устанавливаем путь к конкретной версии Node.js
+                        NODE_BIN_PATH="/home/abazunts/.nvm/versions/node/v20.5.1/bin"
+
+                        # Проверяем что она существует
+                        if [ -x "$NODE_BIN_PATH/node" ]; then
+                            # Используем её
+                            export PATH="$NODE_BIN_PATH:$PATH"
+                            echo "✅ Using Node.js from: $NODE_BIN_PATH"
+                            echo "✅ Version: $(node --version)"
+
+                            # Запускаем тесты
+                            npm run test:e2e
+                        else
+                            echo "❌ Node.js not found at $NODE_BIN_PATH"
+                            exit 1
+                        fi
                     '''
                 }
             }
