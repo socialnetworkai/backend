@@ -21,6 +21,24 @@ pipeline {
             }
         }
 
+        stage('Clean .nvmrc files') {
+            steps {
+                script {
+                    sh '''
+                        echo "=== Removing ALL .nvmrc files ==="
+
+                        # Удаляем ВСЕ .nvmrc файлы в workspace
+                        find /home/abazunts/jenkins/workspace/prd-soc-net-main-pull-request \
+                            -name ".nvmrc" \
+                            -type f \
+                            -delete 2>/dev/null || true
+
+                        echo "✅ All .nvmrc files removed"
+                    '''
+                }
+            }
+        }
+
         stage('Install dependencies') {
             steps {
                 script {
