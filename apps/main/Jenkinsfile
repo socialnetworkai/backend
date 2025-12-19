@@ -27,7 +27,12 @@ pipeline {
                             sh '''
                                 export NVM_DIR="$HOME/.nvm"
                                 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                                nvm use --lts
+                                export NVM_DIR="$HOME/.nvm"
+                                [ -s "$NVM_DIR/nvm.sh" ] && \\. "$NVM_DIR/nvm.sh"
+
+                                # Устанавливаем конкретную версию (например, 20.x.x)
+                                nvm install 20.10.0
+                                nvm use 20.10.0
                                 yarn install --frozen-lockfile
                             '''
                         }
