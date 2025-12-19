@@ -46,15 +46,10 @@ pipeline {
 //                 }
 //             }
 //         }
-        stage('e2e tests - fixed') {
+        stage('e2e tests') {
             steps {
                 script {
                     sh '''
-                        # КОРОТКОЕ И ЭФФЕКТИВНОЕ РЕШЕНИЕ:
-
-                        # 1. Полностью игнорируем NVM
-                        # 2. Используем прямой путь к Node.js
-
                         # Устанавливаем путь к конкретной версии Node.js
                         NODE_BIN_PATH="/home/abazunts/.nvm/versions/node/v20.5.1/bin"
 
@@ -65,7 +60,6 @@ pipeline {
                             echo "✅ Using Node.js from: $NODE_BIN_PATH"
                             echo "✅ Version: $(node --version)"
 
-                            # Запускаем тесты
                             npm run test:e2e
                         else
                             echo "❌ Node.js not found at $NODE_BIN_PATH"
