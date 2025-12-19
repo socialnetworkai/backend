@@ -11,6 +11,7 @@ import { join } from 'node:path';
   imports: [
     ConfigModule.forRoot({
       envFilePath: envFilePaths,
+      ignoreEnvFile: process.env.NODE_ENV === 'production',
       validate,
       isGlobal: true,
     }),
