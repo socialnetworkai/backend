@@ -24,23 +24,12 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 script {
-                    sh '''
-                        # Устанавливаем зависимости, игнорируя проверки версий
-                        yarn install --production=false --ignore-engines --ignore-platform --ignore-optional
-
-                        # Или через npm
-                        # npm install --production=false --ignore-scripts --legacy-peer-deps
-                        if [ -f .nvmrc ]; then
-                        echo "Found .nvmrc file. Content:"cat .nvmrc echo ""
-
-                        # Показываем hex dump для поиска скрытых символов
-                        echo "Hex dump:"
-                        hexdump -C .nvmrc
-
-                        # Удаляем проблемный .nvmrc
-                        echo "Removing problematic .nvmrc..."
-                        rm .nvmrc
-                    '''
+                     sh '''
+                        export NVM_DIR="$HOME/.nvm"
+                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                        nvm use --lts
+                        npm ci
+                     '''
                 }
             }
         }
