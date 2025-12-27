@@ -12,16 +12,18 @@ import { MailModule } from '../../infrastructure/mail-module/mail.module';
 import { AuthConfig } from './services/auth.config';
 import { CryptoService } from './services/crypto.service';
 
+const providers = [
+  RegisterUserUseCase,
+  EmailConfirmationSentHandler,
+  AuthService,
+  EmailConfirmationSentEvent,
+  AuthConfig,
+  CryptoService,
+];
+
 @Module({
   imports: [UsersModule, CqrsModule, MailModule],
   controllers: [AuthController],
-  providers: [
-    RegisterUserUseCase,
-    EmailConfirmationSentHandler,
-    AuthService,
-    EmailConfirmationSentEvent,
-    AuthConfig,
-    CryptoService,
-  ],
+  providers: [...providers],
 })
 export class AuthModule {}

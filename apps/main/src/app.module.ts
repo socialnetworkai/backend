@@ -46,7 +46,5 @@ import { AllDeleteModule } from './modules/testing-all-delete/all-delete.module'
     AuthModule,
     AllDeleteModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
