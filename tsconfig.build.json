@@ -1,4 +1,11 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"],
+  "assets": [
+    {
+      "include": "src/infrastructure/mail-module/templates/**/*.hbs",
+      "outDir": "dist/apps/main"
+    }
+  ],
+  "watchAssets": true
 }

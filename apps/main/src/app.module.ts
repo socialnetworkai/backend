@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { envFilePaths } from './infrastructure/config/env-file-paths';
 import { validate } from './infrastructure/config/env.validation';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'node:path';
+import { CqrsModule } from '@nestjs/cqrs';
+import { AuthModule } from './modules/auth/auth.module';
+import { AllDeleteModule } from './modules/testing-all-delete/all-delete.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { join } from 'node:path';
       validate,
       isGlobal: true,
     }),
+    CqrsModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -33,7 +35,7 @@ import { join } from 'node:path';
           : false,
         // Дополнительные настройки
         synchronize: process.env.NODE_ENV !== 'production', // false для продакшена!
-        logging: process.env.NODE_ENV !== 'production',
+        logging: false,
         extra: {
           connectionLimit: 10,
           // Поддержка serverless (важно для Neon)
@@ -41,8 +43,8 @@ import { join } from 'node:path';
         },
       }),
     }),
+    AuthModule,
+    AllDeleteModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
