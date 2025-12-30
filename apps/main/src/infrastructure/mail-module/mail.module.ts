@@ -23,7 +23,15 @@ import { MailService } from './mail.service';
           from: config.get<string>('MAIL_MODULE_FROM'),
         },
         template: {
-          dir: join(__dirname, '/templates'),
+          dir: join(
+            process.cwd(),
+            'dist',
+            'apps',
+            'main',
+            'infrastructure',
+            'mail-module',
+            'templates',
+          ),
           adapter: new HandlebarsAdapter(),
           options: { strict: true },
         },

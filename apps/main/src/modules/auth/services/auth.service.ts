@@ -1,59 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { CryptoService } from './crypto.service';
-import { AuthConfig } from './auth.config';
 import { CreateUserInputDto } from '../../users/api/input-dto/create-user-input.dto';
-import { User } from '../../users/domain/entity/user.entity';
-import { generateConfirmationCode } from '../../../infrastructure/common/generateUUID';
-import { addSeconds } from 'date-fns/addSeconds';
+import { UserService } from '../../users/services/user.service';
 import { SendEmailDto } from '../../../infrastructure/mail-module/sendEmail.dto';
-import { BadRequestDomainException } from '../../../infrastructure/exceptions/domainException';
-import { UsersRepository } from '../../users/infrastructure/users.repository';
+import { CodeDto } from '../api/input-dto/code.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    protected cryptoService: CryptoService,
-    protected userRepository: UsersRepository,
-    private readonly authConfig: AuthConfig,
-  ) {}
+  constructor(private userService: UserService) {}
 
-  async registration(dto: CreateUserInputDto) {
-    const foundUserByLogin: User | null =
-      await this.userRepository.findUserByLogin(dto.login);
-    if (foundUserByLogin) {
-      throw BadRequestDomainException.create(
-        'user with this login already exists',
-        'login',
-      );
-    }
+  async registration(
+    dto: CreateUserInputDto,
+  ): Promise<{ sendEmailDto: SendEmailDto }> {
+    return await this.userService.createUser(dto);
+  }
 
-    const foundUserByEmail: User | null =
-      await this.userRepository.findUserByEmail(dto.email);
-    if (foundUserByEmail) {
-      throw BadRequestDomainException.create(
-        'user with this email already exists',
-        'email',
-      );
-    }
+  async confirmation(code: string): Promise<void> {
+    await this.userService.confirmation(code);
+  }
 
-    const hash: string | null = dto.password
-      ? await this.cryptoService.createPasswordHash(dto.password)
-      : null;
+  async resendingEmailRegister(email: string): Promise<SendEmailDto> {
+    return await this.userService.resendingEmailRegister(email);
+  }
 
-    const userDto: User = User.createIsNotConfirmedUser(
-      dto.login,
-      dto.email,
-      hash,
-      generateConfirmationCode(),
-      addSeconds(new Date(), this.authConfig.codeLifetimeInSecs),
-    );
+  async recoveryPassword(email: string): Promise<SendEmailDto> {
+    return await this.userService.recoveryPassword(email);
+  }
 
-    const sendEmailDto: SendEmailDto = {
-      login: dto.login,
-      email: dto.email,
-      code: userDto.confirmation.confirmationCode!,
-    };
-
-    return { userDto, sendEmailDto };
+  async setNewPassword(
+    newPassword: string,
+    recoveryCode: string,
+  ): Promise<void> {
+    return await this.userService.setNewPassword(newPassword, recoveryCode);
   }
 }

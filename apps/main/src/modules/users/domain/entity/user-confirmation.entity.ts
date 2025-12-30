@@ -27,7 +27,17 @@ export class UserConfirmation {
   @Column({ type: 'uuid', default: null })
   passwordRecoveryCode: string | null;
 
+  @Column()
+  isAgreeWithPrivacy: boolean;
+
   @OneToOne(() => User, (user: User) => user.confirmation)
   @JoinColumn()
   user: User;
+
+  confirm() {
+    this.isConfirmed = true;
+    this.expirationDate = null;
+    this.confirmationCode = null;
+    this.isAgreeWithPrivacy = true;
+  }
 }

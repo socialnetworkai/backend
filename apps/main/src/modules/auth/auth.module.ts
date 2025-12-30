@@ -9,16 +9,24 @@ import {
 } from './application/events/email-confirmation-sent.event';
 import { AuthService } from './services/auth.service';
 import { MailModule } from '../../infrastructure/mail-module/mail.module';
-import { AuthConfig } from './services/auth.config';
-import { CryptoService } from './services/crypto.service';
+import { HashService } from '@app/shared/common/hash.service';
+import { ConfirmationUseCase } from './application/use-cases/confirmation.use-case';
+import { RegistrationEmailResendingUseCase } from './application/use-cases/emai-resending-register.use-case';
+import { EmailRecoveryPasswordSentHandler } from './application/events/email-recovery-password-sent.event';
+import { RecoverPasswordUseCase } from './application/use-cases/password-recovery.use-case';
+import { SetNewPasswordUseCase } from './application/use-cases/set-new-password.use-case';
 
 const providers = [
   RegisterUserUseCase,
   EmailConfirmationSentHandler,
   AuthService,
   EmailConfirmationSentEvent,
-  AuthConfig,
-  CryptoService,
+  HashService,
+  ConfirmationUseCase,
+  RegistrationEmailResendingUseCase,
+  EmailRecoveryPasswordSentHandler,
+  RecoverPasswordUseCase,
+  SetNewPasswordUseCase,
 ];
 
 @Module({

@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
 
-export function generateConfirmationCode(): string {
+export function generateUUIDCode(): string {
   return randomUUID();
 }

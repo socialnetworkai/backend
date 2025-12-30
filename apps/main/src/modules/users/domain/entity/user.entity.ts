@@ -45,6 +45,7 @@ export class User {
     confirmation.confirmationCode = null;
     confirmation.expirationDate = null;
     confirmation.isConfirmed = true;
+    confirmation.isAgreeWithPrivacy = true;
 
     user.confirmation = confirmation;
     return user;
@@ -64,6 +65,7 @@ export class User {
     confirmation.confirmationCode = confirmationCode;
     confirmation.expirationDate = expirationDate;
     confirmation.isConfirmed = false;
+    confirmation.isAgreeWithPrivacy = true;
 
     user.confirmation = confirmation;
     return user;
