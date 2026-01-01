@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { envFilePaths } from './infrastructure/config/env-file-paths';
 import { validate } from './infrastructure/config/env.validation';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -7,9 +12,12 @@ import { join } from 'node:path';
 import { CqrsModule } from '@nestjs/cqrs';
 import { AuthModule } from './modules/auth/auth.module';
 import { AllDeleteModule } from './modules/testing-all-delete/all-delete.module';
+import { LoggerModule } from '@app/shared/common/logger/localStorage.module';
+import { LoggerMiddleware } from '@app/shared/common/logger/local-storage.middleware';
 
 @Module({
   imports: [
+    LoggerModule,
     ConfigModule.forRoot({
       envFilePath: envFilePaths,
       ignoreEnvFile: process.env.NODE_ENV === 'production',
@@ -46,5 +54,12 @@ import { AllDeleteModule } from './modules/testing-all-delete/all-delete.module'
     AuthModule,
     AllDeleteModule,
   ],
+  providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes({ path: '*path', method: RequestMethod.ALL });
+  }
+}

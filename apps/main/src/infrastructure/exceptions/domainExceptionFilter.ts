@@ -5,15 +5,29 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { DomainException, DomainExceptionCode } from './domainException';
-import { Response } from 'express';
+import { LoggerService } from '@app/shared/common/logger/logger.service';
+import { Request, Response } from 'express';
 
 @Catch(DomainException)
 export class DomainHttpExceptionFilter implements ExceptionFilter {
+  constructor(private logger: LoggerService) {}
+
   catch(exception: DomainException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
+
+    const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
+    const url = request.url;
     const status = this.getStatus(exception);
-    const responseBody = this.getResponseBody(exception);
+    const responseBody = this.getResponseBody(exception, url);
+
+    responseBody.exceptions.map((exception) =>
+      this.logger.error(
+        '[DOMAIN]',
+        `FIELD:${exception.field} MESSAGE:${exception.message} PATH:${responseBody.path}`,
+      ),
+    );
+
     response.status(status).json(responseBody);
   }
 
@@ -32,7 +46,7 @@ export class DomainHttpExceptionFilter implements ExceptionFilter {
     }
   }
 
-  getResponseBody(exception: DomainException) {
-    return exception.extensions;
+  getResponseBody(exception: DomainException, path: string) {
+    return { exceptions: exception.extensions, path, date: new Date() };
   }
 }
