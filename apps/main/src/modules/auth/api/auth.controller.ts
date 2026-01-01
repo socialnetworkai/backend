@@ -1,4 +1,12 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { CreateUserInputDto } from '../../users/api/input-dto/create-user-input.dto';
 import { CommandBus } from '@nestjs/cqrs';
 import { RegisterUserCommand } from '../application/use-cases/register-user.use-case';
@@ -30,27 +38,27 @@ export class AuthController {
     );
   }
 
-  @Post('registration-confirmation')
+  @Get('registration-confirmation')
   @RegistrationConfirmation()
   @HttpCode(HttpStatus.NO_CONTENT)
-  async confirmation(@Body() code: CodeDto) {
-    await this.commandBus.execute(new ConfirmationUseCaseCommand(code.code));
+  async confirmation(@Query() { code }: CodeDto) {
+    await this.commandBus.execute(new ConfirmationUseCaseCommand(code));
   }
 
   @Post('registration-email-resending')
   @RegisterEmailResending()
   @HttpCode(HttpStatus.NO_CONTENT)
-  async registrationEmailResending(@Body() email: EmailDto): Promise<void> {
+  async registrationEmailResending(@Body() { email }: EmailDto): Promise<void> {
     await this.commandBus.execute(
-      new RegistrationEmailResendingUseCaseCommand(email.email),
+      new RegistrationEmailResendingUseCaseCommand(email),
     );
   }
 
   @Post('recover-password')
   @RecoverPassword()
   @HttpCode(HttpStatus.NO_CONTENT)
-  async recoverPassword(@Body() body: EmailDto): Promise<void> {
-    await this.commandBus.execute(new RecoverPasswordCommand(body.email));
+  async recoverPassword(@Body() { email }: EmailDto): Promise<void> {
+    await this.commandBus.execute(new RecoverPasswordCommand(email));
   }
 
   @Post('new-password')
