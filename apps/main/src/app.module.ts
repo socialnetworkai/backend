@@ -28,7 +28,7 @@ import { AllDeleteModule } from './modules/testing-all-delete/all-delete.module'
         migrationsTableName: 'typeorm_migrations',
         migrationsRun: process.env.NODE_ENV === 'production',
         // Настройки SSL для Neon
-        ssl: configService.get('DB_SSL', true)
+        ssl: configService.get('DB_SSL')
           ? {
               rejectUnauthorized: false, // Важно для Neon!
             }

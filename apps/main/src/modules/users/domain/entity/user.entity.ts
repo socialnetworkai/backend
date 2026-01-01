@@ -24,7 +24,6 @@ export class User {
 
   @OneToOne(() => UserConfirmation, (uk: UserConfirmation) => uk.user, {
     cascade: true,
-    onDelete: 'CASCADE',
   })
   confirmation: UserConfirmation;
 

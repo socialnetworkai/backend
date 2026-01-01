@@ -6,7 +6,7 @@ import { UsersRepository } from './infrastructure/users.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './domain/entity/user.entity';
 import { UsersController } from './api/users.controller';
-import { HashService } from '@app/shared/common/hash.service';
+import { HashService } from '@app/shared/common/encrypt/hash.service';
 import { UserConfig } from './services/user.config';
 import { UserConfirmation } from './domain/entity/user-confirmation.entity';
 

@@ -11,12 +11,12 @@ export class EmailConfirmationSentEvent {
 export class EmailConfirmationSentHandler implements IEventHandler<EmailConfirmationSentEvent> {
   constructor(private readonly mailService: MailService) {}
 
-  async handle(event: EmailConfirmationSentEvent): Promise<void> {
+  async handle({ payload }: EmailConfirmationSentEvent): Promise<void> {
     try {
-      await this.mailService.sendConfirmationEmail(event.payload);
-      console.log(`✅ Confirmation email sent to ${event.payload.email}`);
+      await this.mailService.sendConfirmationEmail(payload);
+      console.log(`✅ Confirmation email sent to ${payload.email}`);
     } catch (e) {
-      console.error(`❌ Failed to send email to ${event.payload.email}:`);
+      console.error(`❌ Failed to send email to ${payload.email}:`);
       throw BadRequestDomainException.create('Email incorrect value', 'email');
     }
   }
