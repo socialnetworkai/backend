@@ -15,6 +15,9 @@ import { RegistrationEmailResendingUseCase } from './application/use-cases/emai-
 import { EmailRecoveryPasswordSentHandler } from './application/events/email-recovery-password-sent.event';
 import { RecoverPasswordUseCase } from './application/use-cases/password-recovery.use-case';
 import { SetNewPasswordUseCase } from './application/use-cases/set-new-password.use-case';
+import { IoRedisModule } from '@app/shared/common/redis/redis.module';
+import { AuthConfig } from './services/auth.config';
+import { RedisSession } from './services/redis-session.service';
 
 const providers = [
   RegisterUserUseCase,
@@ -27,10 +30,12 @@ const providers = [
   EmailRecoveryPasswordSentHandler,
   RecoverPasswordUseCase,
   SetNewPasswordUseCase,
+  RedisSession,
+  AuthConfig,
 ];
 
 @Module({
-  imports: [UsersModule, CqrsModule, MailModule],
+  imports: [UsersModule, CqrsModule, MailModule, IoRedisModule.register()],
   controllers: [AuthController],
   providers: [...providers],
 })

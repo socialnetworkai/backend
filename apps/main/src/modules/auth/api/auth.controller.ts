@@ -17,14 +17,19 @@ import { RegistrationEmailResendingUseCaseCommand } from '../application/use-cas
 import { NewPasswordInputDto } from './input-dto/new-password.input.dto';
 import { SetNewPasswordCommand } from '../application/use-cases/set-new-password.use-case';
 import { RecoverPasswordCommand } from '../application/use-cases/password-recovery.use-case';
+import { RedisSession } from '../services/redis-session.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private commandBus: CommandBus) {}
+  constructor(
+    private commandBus: CommandBus,
+    private readonly redisSession: RedisSession,
+  ) {}
 
   @Post('registration')
   @Registration()
   async registration(@Body() body: CreateUserInputDto) {
+    await this.redisSession.insert('sdmnbcdshckjjsdklclscj', 'users', 60000);
     return await this.commandBus.execute<RegisterUserCommand, RegisterViewDto>(
       new RegisterUserCommand(body),
     );
