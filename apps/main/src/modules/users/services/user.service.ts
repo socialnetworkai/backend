@@ -3,7 +3,7 @@ import { User } from '../domain/entity/user.entity';
 import { BadRequestDomainException } from '../../../infrastructure/exceptions/domainException';
 import { CreateUserInputDto } from '../api/input-dto/create-user-input.dto';
 import { UsersRepository } from '../infrastructure/users.repository';
-import { HashService } from '@app/shared/common/hash.service';
+import { HashService } from '@app/shared/common/encrypt/hash.service';
 import { UserConfig } from './user.config';
 import { generateUUIDCode } from '../../../infrastructure/common/generateUUID';
 import { addSeconds } from 'date-fns/addSeconds';
@@ -62,6 +62,7 @@ export class UserService {
   async confirmation(code: string): Promise<void> {
     const userConfirmation: UserConfirmation | null =
       await this.userRepository.findUserByCode(code);
+
     if (!userConfirmation) {
       throw BadRequestDomainException.create(
         ErrorConstants.CONFIRMATION_CODE_INVALID,

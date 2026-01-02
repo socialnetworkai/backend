@@ -1,7 +1,7 @@
 //registration
-export const DESCRIPT_HEAD_REGISTR = 'Registration in the sistem';
+export const DESCRIPT_HEAD_REGISTR = 'Registration in the system';
 export const DESCRIPT_TEXT_REGISTR =
-  'Email with confirmation code will be send to passed qmail address';
+  'Email with confirmation code will be send to passed email address';
 export const DESCRIPT_SUCCESS_REGISTR =
   'Input data is accepted. Email with confirmation code will be send to passed email address. Confirmation code should be inside link as query param';
 
@@ -16,7 +16,7 @@ export const DESCRIPT_BAD_REQUEST_RESENDING =
   'If the inputModel has incorrect values or if email is already confirmed';
 
 //registration-confirmation
-export const DESCRIPT_HEAD_CONFIRM = 'Confirm registration in the sistem';
+export const DESCRIPT_HEAD_CONFIRM = 'Confirm registration in the system';
 export const DESCRIPT_TEXT_CONFIRM = "Changing the user's status to confirmed";
 export const DESCRIPT_SUCCESS_CONFIRM =
   'Email was verified. Account was activated';
@@ -24,7 +24,7 @@ export const DESCRIPT_BAD_REQUEST_CONFIRM =
   'If the confirmation code is incorrect, expired or already been applied';
 
 //login
-export const DESCRIPT_HEAD_LOGIN = 'Try login user tothe sistem';
+export const DESCRIPT_HEAD_LOGIN = 'Try login user tothe system';
 export const DESCRIPT_SUCCESS_LOGIN =
   'Returns JWT accessToken in body and JWT refreshToken in cookie (http-only, secure). Token expiration times are determined via environment variables.';
 export const DESCRIPT_BAD_REQUEST_LOGIN =

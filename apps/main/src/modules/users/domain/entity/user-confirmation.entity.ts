@@ -30,7 +30,9 @@ export class UserConfirmation {
   @Column()
   isAgreeWithPrivacy: boolean;
 
-  @OneToOne(() => User, (user: User) => user.confirmation)
+  @OneToOne(() => User, (user: User) => user.confirmation, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   user: User;
 

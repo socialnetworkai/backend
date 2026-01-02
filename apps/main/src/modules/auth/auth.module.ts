@@ -9,7 +9,7 @@ import {
 } from './application/events/email-confirmation-sent.event';
 import { AuthService } from './services/auth.service';
 import { MailModule } from '../../infrastructure/mail-module/mail.module';
-import { HashService } from '@app/shared/common/hash.service';
+import { HashService } from '@app/shared/common/encrypt/hash.service';
 import { ConfirmationUseCase } from './application/use-cases/confirmation.use-case';
 import { RegistrationEmailResendingUseCase } from './application/use-cases/emai-resending-register.use-case';
 import { EmailRecoveryPasswordSentHandler } from './application/events/email-recovery-password-sent.event';
