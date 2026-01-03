@@ -21,6 +21,36 @@ spec:
            ports:
              - containerPort: PORT_CONTAINER
            env:
+             - name: EMAIL_CONFIRMATION_CODE_LIFETIME_SECS
+               valueFrom:
+                 secretKeyRef:
+                   name: soc-net-main-production-config-secret
+                   key: EMAIL_CONFIRMATION_CODE_LIFETIME_SECS
+             - name: RECOVERY_URL
+               valueFrom:
+                 secretKeyRef:
+                   name: soc-net-main-production-config-secret
+                   key: RECOVERY_URL
+             - name: MAIL_MODULE_HOST
+               valueFrom:
+                 secretKeyRef:
+                   name: soc-net-main-production-config-secret
+                   key: MAIL_MODULE_HOST
+             - name: MAIL_MODULE_USER
+               valueFrom:
+                 secretKeyRef:
+                   name: soc-net-main-production-config-secret
+                   key: MAIL_MODULE_USER
+             - name: MAIL_MODULE_PASSWORD
+               valueFrom:
+                 secretKeyRef:
+                   name: soc-net-main-production-config-secret
+                   key: MAIL_MODULE_PASSWORD
+             - name: MAIL_MODULE_FROM
+               valueFrom:
+                 secretKeyRef:
+                   name: soc-net-main-production-config-secret
+                   key: MAIL_MODULE_FROM
              - name: DATABASE_URL
                valueFrom:
                  secretKeyRef:
