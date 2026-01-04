@@ -70,6 +70,10 @@ export class UserService {
     return await this.userRepository.findUserById(id);
   }
 
+  async findUserByIdView(id: string): Promise<UserViewDto | null> {
+    return await this.userQueryRepository.findUserById(id);
+  }
+
   async findUserByEmailView(email: string): Promise<UserViewDto | null> {
     return await this.userQueryRepository.findUserByEmail(email);
   }

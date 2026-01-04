@@ -15,7 +15,7 @@ export class RedisSession {
     deviceId: string,
     refreshToken: string,
   ): Promise<void> {
-    const expiresIn = this.authConfig.refreshTokenExpiresIn / 1000;
+    const expiresIn = this.authConfig.refreshTokenExpiresIn;
     const key = this.getKey(userId, deviceId);
 
     await this.redisClient.set(key, refreshToken, 'EX', expiresIn);

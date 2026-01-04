@@ -33,11 +33,17 @@ import { SignInCommand } from '../application/use-cases/sign-in.use-case';
 import type { Response } from 'express';
 import { SignInViewDto } from './output-dto/signin-view.dto';
 import { SignInTokensDto } from './output-dto/signin-tokens.dto';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { RequestUser } from './output-dto/request-user.dto';
+import { Public } from './decorators/public.decorator';
+import { UserViewDto } from '../../users/api/output-dto/user-view.dto';
+import { ApiExcludeEndpoint } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
   constructor(private commandBus: CommandBus) {}
 
+  @Public()
   @Post('registration')
   @Registration()
   async registration(@Body() body: CreateUserInputDto) {
@@ -46,6 +52,7 @@ export class AuthController {
     );
   }
 
+  @Public()
   @Post('signin')
   @Login()
   async signIn(
@@ -62,13 +69,20 @@ export class AuthController {
     return { accessToken };
   }
 
+  @Get('me')
+  async authMe(@CurrentUser() user: RequestUser): Promise<UserViewDto> {
+    return user;
+  }
+
   @Get('registration-confirmation')
   @RegistrationConfirmation()
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiExcludeEndpoint()
   async confirmation(@Query() { code }: CodeDto) {
     await this.commandBus.execute(new ConfirmationUseCaseCommand(code));
   }
 
+  @Public()
   @Post('registration-email-resending')
   @RegisterEmailResending()
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -78,6 +92,7 @@ export class AuthController {
     );
   }
 
+  @Public()
   @Post('recover-password')
   @RecoverPassword()
   @HttpCode(HttpStatus.NO_CONTENT)

@@ -16,10 +16,14 @@ export class TokensService {
     private readonly authConfig: AuthConfig,
   ) {}
 
-  async signToken(payload: object, expiresIn: number): Promise<string> {
+  async signJwtToken(payload: object, expiresIn: number): Promise<string> {
     return await this.jwtService.signAsync(payload, {
       expiresIn,
     });
+  }
+
+  async verifyJwtToken(token: string): Promise<any> {
+    return await this.jwtService.verifyAsync(token);
   }
 
   async generateTokens(
@@ -39,8 +43,8 @@ export class TokensService {
     };
 
     const [accessToken, refreshToken] = await Promise.all([
-      this.signToken(accessPayload, +this.authConfig.accessTokenExpiresIn),
-      this.signToken(refreshPayload, +this.authConfig.refreshTokenExpiresIn),
+      this.signJwtToken(accessPayload, +this.authConfig.accessTokenExpiresIn),
+      this.signJwtToken(refreshPayload, +this.authConfig.refreshTokenExpiresIn),
     ]);
 
     await this.redisSession.saveRefreshToken(id, deviceId, refreshToken);

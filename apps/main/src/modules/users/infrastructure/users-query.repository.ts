@@ -18,6 +18,14 @@ export class UsersQueryRepository {
     return User.userViewMapper(user);
   }
 
+  async findUserById(id: string): Promise<UserViewDto | null> {
+    const user = await this.usersRepository.findOne({
+      where: { id },
+    });
+    if (!user) return null;
+    return User.userViewMapper(user);
+  }
+
   async findUserByEmail(email: string): Promise<UserViewDto | null> {
     const user = await this.usersRepository.findOne({
       where: { email: email },

@@ -8,6 +8,7 @@ import {
 import { UserConfirmation } from './user-confirmation.entity';
 import { CreateUserInputDto } from '../../api/input-dto/create-user-input.dto';
 import { UserViewDto } from '../../api/output-dto/user-view.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Entity({ name: 'users' })
 export class User {
@@ -21,7 +22,7 @@ export class User {
   email: string;
 
   @Column({ type: 'varchar', nullable: true })
-  hashPassword: string | null = null;
+  hashPassword: string | null;
 
   @OneToOne(() => UserConfirmation, (uk: UserConfirmation) => uk.user, {
     cascade: true,
@@ -77,7 +78,6 @@ export class User {
     mappedUser.id = user.id;
     mappedUser.email = user.email;
     mappedUser.login = user.login;
-    mappedUser.confirmation = user.confirmation;
 
     return mappedUser;
   }

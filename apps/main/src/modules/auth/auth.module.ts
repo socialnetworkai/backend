@@ -22,8 +22,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TokensService } from './services/token.service';
 import { SignInUseCase } from './application/use-cases/sign-in.use-case';
+import { AuthGuard } from './api/guards/auth.guard';
 
 const providers = [
+  {
+    provide: 'APP_GUARD',
+    useClass: AuthGuard,
+  },
   RegisterUserUseCase,
   SignInUseCase,
   EmailConfirmationSentHandler,
