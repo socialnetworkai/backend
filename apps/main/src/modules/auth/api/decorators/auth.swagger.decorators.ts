@@ -1,16 +1,24 @@
-import { applyDecorators, HttpStatus } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { applyDecorators, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  ApiBody,
+  ApiOkResponse,
+  ApiOperation,
+  ApiResponse,
+} from '@nestjs/swagger';
 import {
   DESCRIPT_BAD_REQUEST_CONFIRM,
+  DESCRIPT_BAD_REQUEST_LOGIN,
   DESCRIPT_BAD_REQUEST_NEW_PASSWORD,
   DESCRIPT_BAD_REQUEST_RECOVER_PASSWORD,
   DESCRIPT_BAD_REQUEST_RESENDING,
   DESCRIPT_HEAD_CONFIRM,
+  DESCRIPT_HEAD_LOGIN,
   DESCRIPT_HEAD_NEW_PASSWORD,
   DESCRIPT_HEAD_RECOVER_PASSWORD,
   DESCRIPT_HEAD_REGISTR,
   DESCRIPT_HEAD_RESENDING,
   DESCRIPT_SUCCESS_CONFIRM,
+  DESCRIPT_SUCCESS_LOGIN,
   DESCRIPT_SUCCESS_NEW_PASSWORD,
   DESCRIPT_SUCCESS_RECOVER_PASSWORD,
   DESCRIPT_SUCCESS_REGISTR,
@@ -26,6 +34,8 @@ import { RegisterViewDto } from '../output-dto/register-view.dto';
 import { CodeDto } from '../input-dto/code.dto';
 import { EmailDto } from '../input-dto/email.dto';
 import { NewPasswordInputDto } from '../input-dto/new-password.input.dto';
+import { SignInViewDto } from '../output-dto/signin-view.dto';
+import { SignInInputDto } from '../input-dto/sign-in-input.dto';
 
 export function Registration() {
   return applyDecorators(
@@ -40,6 +50,26 @@ export function Registration() {
       type: RegisterViewDto,
     }),
     ApiResponse({ status: HttpStatus.BAD_REQUEST, type: DomainExceptionDto }),
+  );
+}
+
+export function Login() {
+  return applyDecorators(
+    HttpCode(HttpStatus.OK),
+    ApiBody({ type: SignInInputDto }),
+    ApiOperation({
+      summary: DESCRIPT_HEAD_LOGIN,
+    }),
+    ApiResponse({
+      status: HttpStatus.OK,
+      description: DESCRIPT_SUCCESS_LOGIN,
+      type: SignInViewDto,
+    }),
+    ApiResponse({
+      status: HttpStatus.BAD_REQUEST,
+      description: DESCRIPT_BAD_REQUEST_LOGIN,
+      type: DomainExceptionDto,
+    }),
   );
 }
 

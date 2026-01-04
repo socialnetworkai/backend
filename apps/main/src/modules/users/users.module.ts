@@ -9,11 +9,13 @@ import { UsersController } from './api/users.controller';
 import { HashService } from '@app/shared/common/encrypt/hash.service';
 import { UserConfig } from './services/user.config';
 import { UserConfirmation } from './domain/entity/user-confirmation.entity';
+import { UsersQueryRepository } from './infrastructure/users-query.repository';
 
 const providers = [
   UserService,
   CreateUserUseCase,
   UsersRepository,
+  UsersQueryRepository,
   HashService,
   UserConfig,
 ];

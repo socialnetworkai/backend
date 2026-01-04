@@ -6,6 +6,8 @@ import {
   HttpStatus,
   Post,
   Query,
+  Headers,
+  Res,
 } from '@nestjs/common';
 import { CreateUserInputDto } from '../../users/api/input-dto/create-user-input.dto';
 import { CommandBus } from '@nestjs/cqrs';
@@ -14,6 +16,7 @@ import {
   RecoverPassword,
   RegisterEmailResending,
   Registration,
+  Login,
   RegistrationConfirmation,
   SetNewPassword,
 } from './decorators/auth.swagger.decorators';
@@ -21,26 +24,42 @@ import { RegisterViewDto } from './output-dto/register-view.dto';
 import { CodeDto } from './input-dto/code.dto';
 import { ConfirmationUseCaseCommand } from '../application/use-cases/confirmation.use-case';
 import { EmailDto } from './input-dto/email.dto';
-import { RegistrationEmailResendingUseCaseCommand } from '../application/use-cases/emai-resending-register.use-case';
+import { RegistrationEmailResendingUseCaseCommand } from '../application/use-cases/email-resending-register.use-case';
 import { NewPasswordInputDto } from './input-dto/new-password.input.dto';
 import { SetNewPasswordCommand } from '../application/use-cases/set-new-password.use-case';
 import { RecoverPasswordCommand } from '../application/use-cases/password-recovery.use-case';
-import { RedisSession } from '../services/redis-session.service';
+import { SignInInputDto } from './input-dto/sign-in-input.dto';
+import { SignInCommand } from '../application/use-cases/sign-in.use-case';
+import type { Response } from 'express';
+import { SignInViewDto } from './output-dto/signin-view.dto';
+import { SignInTokensDto } from './output-dto/signin-tokens.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private commandBus: CommandBus,
-    private readonly redisSession: RedisSession,
-  ) {}
+  constructor(private commandBus: CommandBus) {}
 
   @Post('registration')
   @Registration()
   async registration(@Body() body: CreateUserInputDto) {
-    await this.redisSession.insert('sdmnbcdshckjjsdklclscj', 'users', 60000);
     return await this.commandBus.execute<RegisterUserCommand, RegisterViewDto>(
       new RegisterUserCommand(body),
     );
+  }
+
+  @Post('signin')
+  @Login()
+  async signIn(
+    @Body() signInInputDto: SignInInputDto,
+    @Headers('User-Agent') userAgent: string,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<SignInViewDto> {
+    const { accessToken, refreshToken, refreshCookieOptions }: SignInTokensDto =
+      await this.commandBus.execute(
+        new SignInCommand(signInInputDto, userAgent),
+      );
+
+    res.cookie('refreshToken', refreshToken, refreshCookieOptions);
+    return { accessToken };
   }
 
   @Get('registration-confirmation')

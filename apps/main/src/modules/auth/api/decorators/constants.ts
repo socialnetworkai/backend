@@ -24,7 +24,7 @@ export const DESCRIPT_BAD_REQUEST_CONFIRM =
   'If the confirmation code is incorrect, expired or already been applied';
 
 //login
-export const DESCRIPT_HEAD_LOGIN = 'Try login user tothe system';
+export const DESCRIPT_HEAD_LOGIN = 'Try login user to the system';
 export const DESCRIPT_SUCCESS_LOGIN =
   'Returns JWT accessToken in body and JWT refreshToken in cookie (http-only, secure). Token expiration times are determined via environment variables.';
 export const DESCRIPT_BAD_REQUEST_LOGIN =

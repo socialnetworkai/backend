@@ -60,7 +60,7 @@ pipeline {
                             echo "✅ Using Node.js from: $NODE_BIN_PATH"
                             echo "✅ Version: $(node --version)"
 
-                            npm run test:e2e
+                            npm run test:main:e2e
                         else
                             echo "❌ Node.js not found at $NODE_BIN_PATH"
                             exit 1

@@ -19,20 +19,26 @@ export class UsersRepository {
     return await this.usersRepository.save(user);
   }
 
-  async findUserByLogin(login: string) {
+  async findUserByLogin(login: string): Promise<User | null> {
     return await this.usersRepository.findOne({
       where: { login: login },
     });
   }
 
-  async findUserByEmail(email: string) {
+  async findUserById(id: string): Promise<User | null> {
+    return await this.usersRepository.findOne({
+      where: { id },
+    });
+  }
+
+  async findUserByEmail(email: string): Promise<User | null> {
     return await this.usersRepository.findOne({
       where: { email: email },
       relations: ['confirmation'],
     });
   }
 
-  async findUserByCode(code: string) {
+  async findUserByCode(code: string): Promise<UserConfirmation | null> {
     return await this.confirmRepository.findOne({
       where: { confirmationCode: code },
     });
@@ -42,7 +48,7 @@ export class UsersRepository {
     return await this.confirmRepository.save(userConfirmation);
   }
 
-  async findUserByPasswordRecoveryCode(code: string) {
+  async findUserByPasswordRecoveryCode(code: string): Promise<User | null> {
     return await this.usersRepository.findOne({
       where: {
         confirmation: {

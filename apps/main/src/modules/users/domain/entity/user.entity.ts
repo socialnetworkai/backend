@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { UserConfirmation } from './user-confirmation.entity';
 import { CreateUserInputDto } from '../../api/input-dto/create-user-input.dto';
+import { UserViewDto } from '../../api/output-dto/user-view.dto';
 
 @Entity({ name: 'users' })
 export class User {
@@ -68,5 +69,16 @@ export class User {
 
     user.confirmation = confirmation;
     return user;
+  }
+
+  static userViewMapper(user: User): UserViewDto {
+    const mappedUser = new User();
+
+    mappedUser.id = user.id;
+    mappedUser.email = user.email;
+    mappedUser.login = user.login;
+    mappedUser.confirmation = user.confirmation;
+
+    return mappedUser;
   }
 }
