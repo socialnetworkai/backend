@@ -38,10 +38,10 @@ export class AuthController {
     );
   }
 
-  @Get('registration-confirmation')
+  @Post('registration-confirmation')
   @RegistrationConfirmation()
   @HttpCode(HttpStatus.NO_CONTENT)
-  async confirmation(@Query() { code }: CodeDto) {
+  async confirmation(@Body() { code }: CodeDto) {
     await this.commandBus.execute(new ConfirmationUseCaseCommand(code));
   }
 
