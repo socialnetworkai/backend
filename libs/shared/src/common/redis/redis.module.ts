@@ -14,6 +14,10 @@ export class IoRedisModule {
           useFactory: (configService: ConfigService) => ({
             type: 'single',
             url: configService.get<string>('REDIS_URL'),
+            options: {
+              username: configService.get<string>('REDIS_USERNAME'),
+              password: configService.get<string>('REDIS_PASSWORD'),
+            },
           }),
         }),
       ],
