@@ -8,6 +8,7 @@ export const corsSetup = (app: INestApplication) => {
       'Content-Type',
       'Authorization',
       'Content-Length',
+      'Cookies',
       'Host',
       'Accept',
       'Accept-Encoding',

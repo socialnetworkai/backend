@@ -23,6 +23,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TokensService } from './services/token.service';
 import { SignInUseCase } from './application/use-cases/sign-in.use-case';
 import { AuthGuard } from './api/guards/auth.guard';
+import { RefreshUseCase } from './application/use-cases/refresh.use-case';
+import { SignOutUseCase } from './application/use-cases/signout.use-case';
 
 const providers = [
   {
@@ -40,6 +42,8 @@ const providers = [
   EmailRecoveryPasswordSentHandler,
   RecoverPasswordUseCase,
   SetNewPasswordUseCase,
+  RefreshUseCase,
+  SignOutUseCase,
   RedisSession,
   AuthConfig,
   TokensService,

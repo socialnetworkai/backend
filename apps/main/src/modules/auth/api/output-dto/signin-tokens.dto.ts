@@ -7,3 +7,5 @@ export class SignInTokensDto {
   @ValidateNested()
   refreshCookieOptions: CookieOptions;
 }
+
+export class RefreshTokensDto extends SignInTokensDto {}

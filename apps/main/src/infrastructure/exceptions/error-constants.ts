@@ -18,8 +18,12 @@ export const ErrorConstants = {
   CONFIRMATION_CODE_INVALID:
     'Confirmation code is incorrect, expired, or already used',
   USER_ALREADY_CONFIRMED_CODE: 'User is already confirmed',
+  USER_AGENT_EMPTY: 'userAgent header is empty',
+  USER_AGENT_NOT_CORRECT: 'userAgent header is not correct',
   CONFIRMATION_LINK_EXPIRED: 'Confirmation link in email has expired',
   SESSION_NOT_FOUND: 'Session does not exist',
+  SESSION_CREATE_ERROR: 'Session is not created',
+  SESSION_DELETE_ERROR: 'Session is not deleted',
   USER_WITH_EMAIL_NOT_EXIST: 'User with this email does not exist',
   USER_ALREADY_CONFIRMED: 'User is already confirmed',
   RECOVERY_CODE_INCORRECT: 'Recovery code is incorrect',

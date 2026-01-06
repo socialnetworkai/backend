@@ -1,18 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { RedisSession } from './redis-session.service';
 import { AuthConfig } from './auth.config';
-import { NotFoundDomainException } from '../../../infrastructure/exceptions/domainException';
-import { ErrorConstants } from '../../../infrastructure/exceptions/error-constants';
-import { UserService } from '../../users/services/user.service';
-import { generateUUIDCode } from '../../../infrastructure/common/generateUUID';
 
 @Injectable()
 export class TokensService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly usersService: UserService,
-    private readonly redisSession: RedisSession,
+
     private readonly authConfig: AuthConfig,
   ) {}
 
@@ -28,59 +22,25 @@ export class TokensService {
 
   async generateTokens(
     id: string,
-    userAgent: string,
+    deviceName: string,
+    deviceId: string,
   ): Promise<{ accessToken: string; refreshToken: string }> {
     const accessPayload = {
       sub: id,
+      deviceName,
     };
-
-    const deviceId = this.generateDeviceId(userAgent);
 
     const refreshPayload = {
       sub: id,
       deviceId,
-      userAgent,
+      deviceName,
     };
 
     const [accessToken, refreshToken] = await Promise.all([
-      this.signJwtToken(accessPayload, +this.authConfig.accessTokenExpiresIn),
-      this.signJwtToken(refreshPayload, +this.authConfig.refreshTokenExpiresIn),
+      this.signJwtToken(accessPayload, this.authConfig.accessTokenExpiresIn),
+      this.signJwtToken(refreshPayload, this.authConfig.refreshTokenExpiresIn),
     ]);
 
-    await this.redisSession.saveRefreshToken(id, deviceId, refreshToken);
-
-    await this.redisSession.getAllUserSessionsNames(id);
-
     return { accessToken, refreshToken };
-  }
-
-  async refreshToken(
-    refreshToken: string,
-  ): Promise<{ accessToken: string; refreshToken: string }> {
-    const { sub, deviceId, userAgent } =
-      await this.jwtService.verifyAsync(refreshToken);
-
-    const user = await this.usersService.findUserById(sub);
-
-    if (!user) {
-      throw NotFoundDomainException.create(
-        ErrorConstants.USER_NOT_FOUND,
-        'TokensService/refreshToken',
-      );
-    }
-
-    const userId = user.id;
-    await this.redisSession.validateRefreshToken(
-      userId,
-      deviceId,
-      refreshToken,
-    );
-
-    return this.generateTokens(userId, userAgent);
-  }
-
-  private generateDeviceId(userAgent: string): string {
-    const token = generateUUIDCode();
-    return `${token.slice(token.lastIndexOf('-') + 1)}_${userAgent}`;
   }
 }

@@ -1,15 +1,17 @@
+import { UnauthorizedDomainException } from '../../../../infrastructure/exceptions/domainException';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { TokensService } from '../../services/token.service';
-import { UnauthorizedDomainException } from '../../../../infrastructure/exceptions/domainException';
 import { ErrorConstants } from '../../../../infrastructure/exceptions/error-constants';
 import { UserService } from '../../../users/services/user.service';
-import { Reflector } from '@nestjs/core';
+import { SKIP_AUTH_GUARD } from '../decorators/skip-auth.decorator';
 import { IS_PUBLIC } from '../decorators/public.decorator';
+import { Reflector } from '@nestjs/core';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly tokensService: TokensService,
+
     private readonly usersService: UserService,
     private readonly reflector: Reflector,
   ) {}
@@ -20,7 +22,12 @@ export class AuthGuard implements CanActivate {
       context.getClass(),
     ]);
 
-    if (isPublic) return true;
+    const skipAuth = this.reflector.getAllAndOverride(SKIP_AUTH_GUARD, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+
+    if (isPublic || skipAuth) return true;
 
     const request = context.switchToHttp().getRequest();
     const token = request.headers.authorization?.split(' ')?.pop();
@@ -29,7 +36,7 @@ export class AuthGuard implements CanActivate {
 
     const payload = await this.tokensService.verifyJwtToken(token);
 
-    if (!payload || !payload.sub) {
+    if (!payload || !payload.sub || !payload.deviceName) {
       this.throwUnauthorizedDomainException();
     }
 
@@ -40,6 +47,8 @@ export class AuthGuard implements CanActivate {
     }
 
     request.user = user;
+
+    request.deviceName = payload.deviceName;
 
     return true;
   }

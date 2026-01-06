@@ -6,6 +6,7 @@ import { DomainHttpExceptionFilter } from './infrastructure/exceptions/domainExc
 import { swaggerSetup } from './infrastructure/common/swagger.setup';
 import { LoggerService } from '@app/shared/common/logger/logger.service';
 import { corsSetup } from './infrastructure/config/cors.setup';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,8 @@ async function bootstrap() {
     new AllHttpExceptionsFilter(logger),
     new DomainHttpExceptionFilter(logger),
   );
+
+  app.use(cookieParser());
 
   logger.log('MAIN', `main application started on port ${process.env.PORT}`);
   await app.listen(process.env.PORT || 3000);
