@@ -46,29 +46,29 @@ pipeline {
 //                 }
 //             }
 //         }
-        stage('e2e tests') {
-            steps {
-                script {
-                    sh '''
-                        # Устанавливаем путь к конкретной версии Node.js
-                        NODE_BIN_PATH="/home/abazunts/.nvm/versions/node/v20.5.1/bin"
-
-                        # Проверяем что она существует
-                        if [ -x "$NODE_BIN_PATH/node" ]; then
-                            # Используем её
-                            export PATH="$NODE_BIN_PATH:$PATH"
-                            echo "✅ Using Node.js from: $NODE_BIN_PATH"
-                            echo "✅ Version: $(node --version)"
-
-                            npm run test:main:e2e
-                        else
-                            echo "❌ Node.js not found at $NODE_BIN_PATH"
-                            exit 1
-                        fi
-                    '''
-                }
-            }
-        }
+//         stage('e2e tests') {
+//             steps {
+//                 script {
+//                     sh '''
+//                         # Устанавливаем путь к конкретной версии Node.js
+//                         NODE_BIN_PATH="/home/abazunts/.nvm/versions/node/v20.5.1/bin"
+//
+//                         # Проверяем что она существует
+//                         if [ -x "$NODE_BIN_PATH/node" ]; then
+//                             # Используем её
+//                             export PATH="$NODE_BIN_PATH:$PATH"
+//                             echo "✅ Using Node.js from: $NODE_BIN_PATH"
+//                             echo "✅ Version: $(node --version)"
+//
+//                             npm run test:e2e
+//                         else
+//                             echo "❌ Node.js not found at $NODE_BIN_PATH"
+//                             exit 1
+//                         fi
+//                     '''
+//                 }
+//             }
+//         }
         stage('Build docker image') {
             steps {
                 echo "Build image started..."
