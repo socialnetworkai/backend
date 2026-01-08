@@ -24,7 +24,7 @@ export const DESCRIPT_BAD_REQUEST_CONFIRM =
   'If the confirmation code is incorrect, expired or already been applied';
 
 //login
-export const DESCRIPT_HEAD_LOGIN = 'Try login user tothe system';
+export const DESCRIPT_HEAD_LOGIN = 'Try login user to the system';
 export const DESCRIPT_SUCCESS_LOGIN =
   'Returns JWT accessToken in body and JWT refreshToken in cookie (http-only, secure). Token expiration times are determined via environment variables.';
 export const DESCRIPT_BAD_REQUEST_LOGIN =
@@ -59,7 +59,10 @@ export const DESCRIPT_BAD_REQUEST_NEW_PASSWORD =
 //logout
 export const DESCRIPT_HEAD_LOGOUT =
   'In cookie client must send correct refreshToken that will be revoked';
+
 export const DESCRIPT_SUCCESS_LOGOUT = 'Successfully logged out';
+export const DESCRIPT_SUCCESS_LOGOUT_OTHER =
+  'Successfully logged out all sessions except current';
 export const DESCRIPT_UNAUTHORIZED_LOGOUT = 'Unauthorized';
 
 // get-user-account
@@ -70,11 +73,20 @@ export const DESCRIPT_SUCCESS_USER_ACC = 'User info returned successfully.';
 export const DESCRIPT_UNAUTHORIZED_USER_ACC =
   'Access denied. Missing or invalid JWT token.';
 
+//sessions
+export const DESCRIPT_HEAD_GET_USER_SESSIONS = 'Get all user sessions';
+export const DESCRIPT_TEXT_GET_USER_SESSIONS =
+  'Get all user sessions with current session flag';
+export const DESCRIPT_SUCCESS_USER_SESSION =
+  'User`s sessions returned successfully.';
+export const DESCRIPT_UNAUTHORIZED_USER_SESSIONS =
+  'Access denied. Missing or invalid JWT token.';
+
 //refresh-token
 export const DESCRIPT_HEAD_REFRESH_TOKEN =
   'Generate new pair of access and refresh tokens';
 export const DESCRIPT_TEXT_REFRESH_TOKEN =
-  'In cookie clients must send correct refreshToken that will be revokked after refreshing. Device LastActiveDate should be issued Date of new refresh token';
+  'In cookie clients must send correct refreshToken that will be revoked after refreshing.';
 export const DESCRIPT_UNAUTHORIZED_REFRESH_TOKEN = 'Unauthorized';
 export const DESCRIPT_SUCCESS_TOKENS_ISSUED =
   'Returns JWT accessToken in body and JWT refreshToken in cookie (http-only, secure). Token expiration times are set via environment variables.';

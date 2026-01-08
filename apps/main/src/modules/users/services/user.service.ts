@@ -11,11 +11,14 @@ import { SendEmailDto } from '../../../infrastructure/mail-module/sendEmail.dto'
 import { DataSource } from 'typeorm';
 import { ErrorConstants } from '../../../infrastructure/exceptions/error-constants';
 import { UserConfirmation } from '../domain/entity/user-confirmation.entity';
+import { UsersQueryRepository } from '../infrastructure/users-query.repository';
+import { UserViewDto } from '../api/output-dto/user-view.dto';
 
 @Injectable()
 export class UserService {
   constructor(
     protected userRepository: UsersRepository,
+    protected userQueryRepository: UsersQueryRepository,
     private hashService: HashService,
     private userConfig: UserConfig,
     private dataSource: DataSource,
@@ -57,6 +60,22 @@ export class UserService {
 
       return { sendEmailDto };
     });
+  }
+
+  async findUserByEmail(email: string): Promise<User | null> {
+    return await this.userRepository.findUserByEmail(email);
+  }
+
+  async findUserById(id: string): Promise<User | null> {
+    return await this.userRepository.findUserById(id);
+  }
+
+  async findUserByIdView(id: string): Promise<UserViewDto | null> {
+    return await this.userQueryRepository.findUserById(id);
+  }
+
+  async findUserByEmailView(email: string): Promise<UserViewDto | null> {
+    return await this.userQueryRepository.findUserByEmail(email);
   }
 
   async confirmation(code: string): Promise<void> {

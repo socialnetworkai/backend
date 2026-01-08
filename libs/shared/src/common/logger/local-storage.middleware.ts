@@ -1,7 +1,7 @@
-import { v4 } from 'uuid';
 import { Request, Response } from 'express';
 import { AsyncLocalStorage } from 'async_hooks';
 import { Injectable, NestMiddleware } from '@nestjs/common';
+import { generateUUIDCode } from '../../../../../apps/main/src/infrastructure/common/generateUUID';
 
 export interface TraceStore {
   traceId: string;
@@ -23,7 +23,7 @@ export class LoggerMiddleware implements NestMiddleware {
   }
 
   private genV4(): string {
-    let traceId = v4();
+    let traceId = generateUUIDCode();
     return traceId.slice(traceId.lastIndexOf('-') + 1);
   }
 }
