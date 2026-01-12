@@ -51,6 +51,36 @@ spec:
                  secretKeyRef:
                    name: soc-net-main-production-config-secret
                    key: MAIL_MODULE_FROM
+             - name: REDIS_URL
+               valueFrom:
+                 secretKeyRef:
+                   name: soc-net-main-production-config-secret
+                   key: REDIS_URL
+             - name: REDIS_USERNAME
+               valueFrom:
+                 secretKeyRef:
+                   name: soc-net-main-production-config-secret
+                   key: REDIS_USERNAME
+             - name: REDIS_PASSWORD
+               valueFrom:
+                 secretKeyRef:
+                   name: soc-net-main-production-config-secret
+                   key: REDIS_PASSWORD
+             - name: REFRESH_TOKEN_EXPIRES_IN
+               valueFrom:
+                 secretKeyRef:
+                   name: soc-net-main-production-config-secret
+                   key: REFRESH_TOKEN_EXPIRES_IN
+             - name: ACCESS_TOKEN_EXPIRES_IN
+               valueFrom:
+                 secretKeyRef:
+                   name: soc-net-main-production-config-secret
+                   key: ACCESS_TOKEN_EXPIRES_IN
+             - name: JWT_SECRET
+               valueFrom:
+                 secretKeyRef:
+                   name: soc-net-main-production-config-secret
+                   key: JWT_SECRET
              - name: DATABASE_URL
                valueFrom:
                  secretKeyRef:

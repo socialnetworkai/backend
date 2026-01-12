@@ -25,6 +25,7 @@ import { SignInUseCase } from './application/use-cases/sign-in.use-case';
 import { AuthGuard } from './api/guards/auth.guard';
 import { RefreshUseCase } from './application/use-cases/refresh.use-case';
 import { SignOutUseCase } from './application/use-cases/signout.use-case';
+import { RecaptchaService } from './services/recaptcha.service';
 
 const providers = [
   {
@@ -47,6 +48,7 @@ const providers = [
   RedisSession,
   AuthConfig,
   TokensService,
+  RecaptchaService,
 ];
 
 @Module({
