@@ -2,8 +2,7 @@ import { Controller, Delete, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { User } from '../users/domain/entity/user.entity';
-import { UserConfirmation } from '../users/domain/entity/user-confirmation.entity';
+import { Public } from '../auth/api/decorators/public.decorator';
 
 export const TESTING_ROUTE = 'testing';
 
@@ -19,6 +18,7 @@ export class AllDeleteController {
     status: 204,
     description: 'All data is deleted',
   })
+  @Public()
   @Delete('all-data')
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteAll(): Promise<void> {

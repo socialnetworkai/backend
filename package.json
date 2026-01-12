@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@nestjs-modules/ioredis": "^2.0.2",
-    "@nestjs-modules/mailer": "^2.0.2",
+    "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/common": "^11.1.9",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
@@ -46,7 +46,7 @@
     "cookie-parser": "^1.4.7",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
-    "ioredis": "^5.8.2",
+    "ioredis": "^5.9.1",
     "lodash": "^4.17.21",
     "nodemailer": "^7.0.12",
     "pg": "^8.16.3",

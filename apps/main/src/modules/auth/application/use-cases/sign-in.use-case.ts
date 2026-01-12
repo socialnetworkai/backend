@@ -1,5 +1,4 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { SignInInputDto } from '../../api/input-dto/sign-in-input.dto';
 import { AuthService } from '../../services/auth.service';
 import { SignInTokensDto } from '../../api/output-dto/signin-tokens.dto';
 import { SignInDto } from '../../api/input-dto/signin.dto';
