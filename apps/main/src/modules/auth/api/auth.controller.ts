@@ -158,8 +158,9 @@ export class AuthController {
     @CurrentUser('id') sub: string,
     @DeviceName() deviceName: string,
   ): Promise<SessionViewDto[]> {
-    const sessions = await this.redisSession.getAllUserSessions(sub);
-    return sessions.map((session) => {
+    const sessions: SessionViewDto[] =
+      await this.redisSession.getAllUserSessions(sub);
+    return sessions.map((session: SessionViewDto) => {
       if (session.name === deviceName) {
         session.current = true;
         return session;
