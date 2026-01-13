@@ -3,19 +3,40 @@ import {
   UnauthorizedDomainException,
 } from '../../../infrastructure/exceptions/domainException';
 import { InjectRedis } from '@nestjs-modules/ioredis';
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { AuthConfig } from './auth.config';
 import Redis, { ScanStream } from 'ioredis';
 import { SessionDto, SessionViewDto } from '../api/input-dto/session.dto';
 import { ErrorConstants } from '../../../infrastructure/exceptions/error-constants';
 import { SignOutInputDto } from '../api/input-dto/signout.input.dto';
+import { LoggerService } from '../../../../../../libs/shared/src/common/logger/logger.service';
 
 @Injectable()
-export class RedisSession {
+export class RedisSession implements OnModuleInit {
   constructor(
     @InjectRedis() private readonly redisClient: Redis,
     private readonly authConfig: AuthConfig,
+    private readonly loggerService: LoggerService,
   ) {}
+
+  async onModuleInit() {
+    this.redisClient.on('connect', () => {
+      this.loggerService.log(
+        'RedisSession',
+        `Redis connected successfully! status: ${this.redisClient.status}`,
+      );
+    });
+
+    this.redisClient.on('error', (err) => {
+      this.loggerService.error('Redis connection error:', err.message);
+    });
+
+    if (this.redisClient.status === 'ready') {
+      this.loggerService.log('RedisSession', 'Redis is ready in onModuleInit.');
+    } else {
+      this.loggerService.log(`Redis status:`, this.redisClient.status);
+    }
+  }
 
   async saveSession(
     userId: string,
