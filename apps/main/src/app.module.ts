@@ -52,14 +52,14 @@ import { LoggerMiddleware } from '@app/shared/common/logger/local-storage.middle
       }),
     }),
     AuthModule,
-    AllDeleteModule,
+    // AllDeleteModule,
   ],
   providers: [],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggerMiddleware)
-      .forRoutes({ path: '*path', method: RequestMethod.ALL });
-  }
+export class AppModule {
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer
+  //     .apply(LoggerMiddleware)
+  //     .forRoutes({ path: '*path', method: RequestMethod.ALL });
+  // }
 }
