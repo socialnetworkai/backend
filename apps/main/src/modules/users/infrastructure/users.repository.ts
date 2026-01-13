@@ -19,6 +19,13 @@ export class UsersRepository {
     return await this.usersRepository.save(user);
   }
 
+  async deleteUser(id: string, manager?: EntityManager): Promise<void> {
+    if (manager) {
+      await manager.delete(User, { id });
+    }
+    await this.usersRepository.delete(id);
+  }
+
   async findUserByLogin(login: string): Promise<User | null> {
     return await this.usersRepository.findOne({
       where: { login: login },

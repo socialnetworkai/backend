@@ -37,6 +37,7 @@ import {
   DESCRIPT_TEXT_CONFIRM,
   DESCRIPT_TEXT_GET_USER_ACC,
   DESCRIPT_TEXT_GET_USER_SESSIONS,
+  DESCRIPT_TEXT_LOGIN,
   DESCRIPT_TEXT_RECOVER_PASSWORD,
   DESCRIPT_TEXT_REFRESH_TOKEN,
   DESCRIPT_TEXT_REGISTR,
@@ -54,7 +55,6 @@ import { EmailDto } from '../input-dto/email.dto';
 import { NewPasswordInputDto } from '../input-dto/new-password.input.dto';
 import { RefreshViewDto, SignInViewDto } from '../output-dto/signin-view.dto';
 import { SignInInputDto } from '../input-dto/sign-in-input.dto';
-import { SignOutInputDto } from '../input-dto/signout.input.dto';
 import { SessionViewDto } from '../input-dto/session.dto';
 import { UserViewDto } from '../../../users/api/output-dto/user-view.dto';
 
@@ -85,6 +85,7 @@ export function Login() {
     ApiBody({ type: SignInInputDto }),
     ApiOperation({
       summary: DESCRIPT_HEAD_LOGIN,
+      description: DESCRIPT_TEXT_LOGIN,
     }),
     ApiResponse({
       status: HttpStatus.OK,
