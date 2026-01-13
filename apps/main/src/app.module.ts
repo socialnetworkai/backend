@@ -51,7 +51,7 @@ import { LoggerMiddleware } from '@app/shared/common/logger/local-storage.middle
         },
       }),
     }),
-    AuthModule,
+    // AuthModule,
     // AllDeleteModule,
   ],
   providers: [],

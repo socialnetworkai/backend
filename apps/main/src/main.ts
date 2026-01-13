@@ -10,7 +10,7 @@ import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // app.setGlobalPrefix('/api/v1');
+  app.setGlobalPrefix('/api/v1');
 
   pipesSetup(app);
   // corsSetup(app);
@@ -21,10 +21,10 @@ async function bootstrap() {
   const logger = await app.resolve(LoggerService);
 
   console.log(3);
-  // app.useGlobalFilters(
-  //   new AllHttpExceptionsFilter(logger),
-  //   new DomainHttpExceptionFilter(logger),
-  // );
+  app.useGlobalFilters(
+    new AllHttpExceptionsFilter(logger),
+    new DomainHttpExceptionFilter(logger),
+  );
 
   console.log(4);
 
