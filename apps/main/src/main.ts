@@ -7,12 +7,13 @@ import { swaggerSetup } from './infrastructure/common/swagger.setup';
 import { LoggerService } from '@app/shared/common/logger/logger.service';
 import { corsSetup } from './infrastructure/config/cors.setup';
 import cookieParser from 'cookie-parser';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('/api/v1');
 
-  pipesSetup(app);
+  // pipesSetup(app);
   // corsSetup(app);
   console.log(1);
   // swaggerSetup(app);
@@ -28,7 +29,7 @@ async function bootstrap() {
 
   console.log(4);
 
-  app.use(cookieParser());
+  // app.use(cookieParser());
 
   console.log(5);
   console.log('PORT');

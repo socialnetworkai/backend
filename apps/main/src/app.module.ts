@@ -14,17 +14,18 @@ import { AuthModule } from './modules/auth/auth.module';
 import { AllDeleteModule } from './modules/testing-all-delete/all-delete.module';
 import { LoggerModule } from '@app/shared/common/logger/localStorage.module';
 import { LoggerMiddleware } from '@app/shared/common/logger/local-storage.middleware';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
     // LoggerModule,
     ConfigModule.forRoot({
       envFilePath: envFilePaths,
-      ignoreEnvFile: process.env.NODE_ENV === 'production',
+      // ignoreEnvFile: process.env.NODE_ENV === 'production',
       validate,
       isGlobal: true,
     }),
-    CqrsModule,
+    // CqrsModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -51,6 +52,7 @@ import { LoggerMiddleware } from '@app/shared/common/logger/local-storage.middle
         },
       }),
     }),
+    UsersModule,
     // AuthModule,
     // AllDeleteModule,
   ],
