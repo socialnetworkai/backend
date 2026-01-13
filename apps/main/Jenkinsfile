@@ -3,13 +3,13 @@ pipeline {
     agent any
     environment {
         ENV_TYPE = "production"
-        PORT = 4136
+        PORT = 4145
         NAMESPACE = "socialnetwork-ai-com"
         REGISTRY_HOSTNAME = "socialnetworkai"
-        PROJECT = "soc-net-main"
+        PROJECT = "socnet-main"
         SERVICE="main"
         REGISTRY = "registry.hub.docker.com"
-        DEPLOYMENT_NAME = "soc-net-main-deployment"
+        DEPLOYMENT_NAME = "socnet-main-deployment"
         IMAGE_NAME = "${env.BUILD_ID}_${env.ENV_TYPE}_${env.GIT_COMMIT}"
         DOCKER_BUILD_NAME = "${env.REGISTRY_HOSTNAME}/${env.PROJECT}:${env.IMAGE_NAME}"
     }
@@ -20,55 +20,31 @@ pipeline {
                 checkout scm
             }
         }
-
-        stage('Install dependencies') {
+        stage('Unit tests') {
             steps {
                 script {
-                     sh '''
-                        export NVM_DIR="$HOME/.nvm"
-                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                        nvm use v20.5.1 --ignore-prev-failure
-                        npm ci
-                     '''
+                    sh '''
+                       export NVM_DIR="$HOME/.nvm"
+                       [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                       nvm use --lts
+                       yarn install
+                       yarn test
+                    '''
                 }
             }
         }
-//         stage('Unit tests') {
-//             steps {
-//                 script {
-//                     sh '''
-//                        export NVM_DIR="$HOME/.nvm"
-//                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-//                        nvm use --lts
-//                        yarn install
-//                        yarn test
-//                     '''
-//                 }
-//             }
-//         }
-//         stage('e2e tests') {
-//             steps {
-//                 script {
-//                     sh '''
-//                         # Устанавливаем путь к конкретной версии Node.js
-//                         NODE_BIN_PATH="/home/abazunts/.nvm/versions/node/v20.5.1/bin"
-//
-//                         # Проверяем что она существует
-//                         if [ -x "$NODE_BIN_PATH/node" ]; then
-//                             # Используем её
-//                             export PATH="$NODE_BIN_PATH:$PATH"
-//                             echo "✅ Using Node.js from: $NODE_BIN_PATH"
-//                             echo "✅ Version: $(node --version)"
-//
-//                             npm run test:e2e
-//                         else
-//                             echo "❌ Node.js not found at $NODE_BIN_PATH"
-//                             exit 1
-//                         fi
-//                     '''
-//                 }
-//             }
-//         }
+        stage('e2e tests') {
+            steps {
+                script {
+                    sh '''
+                       export NVM_DIR="$HOME/.nvm"
+                       [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                       nvm use --lts
+                       yarn test:e2e
+                    '''
+                }
+            }
+        }
         stage('Build docker image') {
             steps {
                 echo "Build image started..."
