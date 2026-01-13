@@ -62,6 +62,18 @@ export class UserService {
     });
   }
 
+  async deleteUser(id: string): Promise<void> {
+    const user = await this.userQueryRepository.findUserById(id);
+
+    if (!user)
+      throw BadRequestDomainException.create(
+        ErrorConstants.USER_NOT_FOUND,
+        'UserService',
+      );
+
+    return await this.userRepository.deleteUser(id);
+  }
+
   async findUserByEmail(email: string): Promise<User | null> {
     return await this.userRepository.findUserByEmail(email);
   }

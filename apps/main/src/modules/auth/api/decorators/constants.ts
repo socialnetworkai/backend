@@ -25,6 +25,8 @@ export const DESCRIPT_BAD_REQUEST_CONFIRM =
 
 //login
 export const DESCRIPT_HEAD_LOGIN = 'Try login user to the system';
+export const DESCRIPT_TEXT_LOGIN =
+  'Pass to user-agent name of device(browser version or smth custom). If using browser version add some uuid or part of uuid to be uniq';
 export const DESCRIPT_SUCCESS_LOGIN =
   'Returns JWT accessToken in body and JWT refreshToken in cookie (http-only, secure). Token expiration times are determined via environment variables.';
 export const DESCRIPT_BAD_REQUEST_LOGIN =

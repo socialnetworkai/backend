@@ -10,10 +10,12 @@ import { HashService } from '@app/shared/common/encrypt/hash.service';
 import { UserConfig } from './services/user.config';
 import { UserConfirmation } from './domain/entity/user-confirmation.entity';
 import { UsersQueryRepository } from './infrastructure/users-query.repository';
+import { DeleteUserUseCase } from './application/use-cases/delete-user.use-case';
 
 const providers = [
   UserService,
   CreateUserUseCase,
+  DeleteUserUseCase,
   UsersRepository,
   UsersQueryRepository,
   HashService,

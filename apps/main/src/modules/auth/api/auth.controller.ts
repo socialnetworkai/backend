@@ -175,6 +175,7 @@ export class AuthController {
     return user;
   }
 
+  @Public()
   @Get('registration-confirmation')
   @RegistrationConfirmation()
   @HttpCode(HttpStatus.NO_CONTENT)
