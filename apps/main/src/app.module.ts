@@ -17,7 +17,7 @@ import { LoggerMiddleware } from '@app/shared/common/logger/local-storage.middle
 
 @Module({
   imports: [
-    LoggerModule,
+    // LoggerModule,
     ConfigModule.forRoot({
       envFilePath: envFilePaths,
       ignoreEnvFile: process.env.NODE_ENV === 'production',
