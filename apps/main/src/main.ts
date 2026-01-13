@@ -14,7 +14,9 @@ async function bootstrap() {
 
   pipesSetup(app);
   corsSetup(app);
+  console.log(1);
   swaggerSetup(app);
+  console.log(2);
 
   const logger = await app.resolve(LoggerService);
 
