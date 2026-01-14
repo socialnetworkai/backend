@@ -7,29 +7,16 @@ ENV PORT=$port
 # Set to a non-root built-in user `node`
 
 USER node
+WORKDIR /app
 
-# Create app directory (with user `node`)
-RUN mkdir -p /home/node/dist/${SERVICE}
+# Копируем всё
+COPY . .
 
-WORKDIR /home/node/dist/${SERVICE}
+RUN npm ci
+RUN npm run build:main
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
+# Находим точный путь к main.js
+RUN find /app -name "main.js" -type f | grep -v node_modules
 
-
-
-COPY --chown=node package*.json ./
-
-RUN npm install
-
-# Bundle app source code
-COPY --chown=node . .
-
-RUN npm run build:${SERVICE}
-
-# Bind to all network interfaces so that it can be mapped to the host OS
-
-EXPOSE ${PORT}
-
-CMD npm run 'start:prod'
+WORKDIR /app/dist/apps/main
+CMD ["node", "main.js"]
