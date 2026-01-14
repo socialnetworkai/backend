@@ -24,7 +24,7 @@ COPY --chown=node package*.json ./
 RUN npm install
 
 # Bundle app source code
-COPY --chown=node ../../../../Users/oblak/OneDrive/Рабочий%20стол/ttt .
+COPY --chown=node . .
 
 RUN npm run build:${SERVICE}
 
