@@ -14,18 +14,17 @@ import { AuthModule } from './modules/auth/auth.module';
 import { AllDeleteModule } from './modules/testing-all-delete/all-delete.module';
 import { LoggerModule } from '@app/shared/common/logger/localStorage.module';
 import { LoggerMiddleware } from '@app/shared/common/logger/local-storage.middleware';
-import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
-    // LoggerModule,
+    LoggerModule,
     ConfigModule.forRoot({
       envFilePath: envFilePaths,
       ignoreEnvFile: process.env.NODE_ENV === 'production',
       validate,
       isGlobal: true,
     }),
-    // CqrsModule,
+    CqrsModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -52,16 +51,15 @@ import { UsersModule } from './modules/users/users.module';
         },
       }),
     }),
-    UsersModule,
-    // AuthModule,
-    // AllDeleteModule,
+    AuthModule,
+    AllDeleteModule,
   ],
   providers: [],
 })
-export class AppModule {
-  // configure(consumer: MiddlewareConsumer) {
-  //   consumer
-  //     .apply(LoggerMiddleware)
-  //     .forRoutes({ path: '*path', method: RequestMethod.ALL });
-  // }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes({ path: '*path', method: RequestMethod.ALL });
+  }
 }

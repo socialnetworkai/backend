@@ -18,12 +18,12 @@ export enum Environment {
 }
 
 class EnvironmentVariables {
-  @IsString()
-  NODE_ENV: string;
+  @IsEnum(Environment)
+  NODE_ENV: Environment;
 
   @IsNumber()
-  // @Min(0)
-  // @Max(65535)
+  @Min(0)
+  @Max(65535)
   PORT: number;
 
   @IsNumber()

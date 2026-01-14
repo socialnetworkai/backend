@@ -28,8 +28,4 @@ const providers = [
   providers: [...providers],
   exports: [UserService],
 })
-export class UsersModule {
-  constructor() {
-    console.log('users module');
-  }
-}
+export class UsersModule {}
