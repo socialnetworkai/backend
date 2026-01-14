@@ -106,7 +106,6 @@ export class AuthService {
     return {
       //todo while fronts not have deployed site
       secure: this.authConfig.nodeEnv === 'production' ? false : false,
-      sameSite: 'none',
       maxAge: this.authConfig.refreshTokenExpiresIn * 1000,
       httpOnly: true,
     };

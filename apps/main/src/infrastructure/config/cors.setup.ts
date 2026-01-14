@@ -8,7 +8,7 @@ export const corsSetup = (app: INestApplication) => {
       'Content-Length',
       'x-recaptcha-token',
     ],
-    exposedHeaders: ['Set-Cookie'],
+    exposedHeaders: ['Set-cookie'],
 
     origin: ['http://localhost:3000', 'https://socialnetwork-ai.com'],
     credentials: true,
