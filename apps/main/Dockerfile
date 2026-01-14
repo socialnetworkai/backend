@@ -11,7 +11,7 @@ USER node
 # Create app directory (with user `node`)
 RUN mkdir -p /home/node/dist/${SERVICE}
 
-WORKDIR /home/node/dist/${SERVICE}
+WORKDIR /home/node/dist/app/${SERVICE}
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
