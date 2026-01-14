@@ -1,35 +1,44 @@
 # Check out https://hub.docker.com/_/node to select a new base image
 FROM node:20.11-alpine
+
 ARG port
 ARG service
 ENV SERVICE=$service
 ENV PORT=$port
-# Set to a non-root built-in user `node`
 
+# Set to a non-root built-in user `node`
 USER node
 
-# Create app directory (with user `node`)
-RUN mkdir -p /home/node/dist/${SERVICE}
+# Create app directory
+RUN mkdir -p /home/node/app
 
-WORKDIR /home/node/dist/${SERVICE}
+# Устанавливаем рабочую директорию как корень проекта
+WORKDIR /home/node/app
 
 # Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-
-
-
+# Копируем package.json в корень проекта
 COPY --chown=node package*.json ./
+COPY --chown=node nest-cli.json ./
+COPY --chown=node tsconfig*.json ./
 
-RUN npm install
+# Копируем структуру проекта
+COPY --chown=node apps/ ./apps/
+COPY --chown=node libs/ ./libs/
 
-# Bundle app source code
-COPY --chown=node . .
+RUN npm ci
 
+# Выполняем сборку из корня проекта
 RUN npm run build:${SERVICE}
 
-# Bind to all network interfaces so that it can be mapped to the host OS
+# Создаем папку для production и копируем только необходимые файлы
+RUN mkdir -p /home/node/dist/production
+RUN cp -r dist/apps/${SERVICE} /home/node/dist/production/
 
+# Устанавливаем рабочую директорию для запуска
+WORKDIR /home/node/dist/production/${SERVICE}
+
+# Bind to all network interfaces so that it can be mapped to the host OS
 EXPOSE ${PORT}
 
-CMD npm run 'start:prod'
+# Запускаем приложение
+CMD node main
