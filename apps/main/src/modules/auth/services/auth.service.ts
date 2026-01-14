@@ -104,7 +104,8 @@ export class AuthService {
 
   createRefreshCookieOptions(): CookieOptions {
     return {
-      secure: this.authConfig.nodeEnv === 'production' ? true : false,
+      //todo while fronts not have deployed site
+      secure: this.authConfig.nodeEnv === 'production' ? false : false,
       sameSite: 'none',
       maxAge: this.authConfig.refreshTokenExpiresIn * 1000,
       httpOnly: true,
