@@ -23,6 +23,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @Public()
   @ApiDeleteUser()
   async deleteUser(@Param('id') id: string): Promise<void> {
     return await this.commandBus.execute(new DeleteUserCommand(id));
