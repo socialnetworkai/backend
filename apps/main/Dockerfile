@@ -1,35 +1,38 @@
 # Check out https://hub.docker.com/_/node to select a new base image
 FROM node:20.11-alpine
+
 ARG port
 ARG service
 ENV SERVICE=$service
 ENV PORT=$port
-# Set to a non-root built-in user `node`
 
 USER node
 
-# Create app directory (with user `node`)
-RUN mkdir -p /home/node/dist/${SERVICE}
+# Создаем директорию приложения
+RUN mkdir -p /home/node/app
 
-WORKDIR /home/node/dist/app/${SERVICE}
+WORKDIR /home/node/app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-
-
-
+# Копируем файлы зависимостей
 COPY --chown=node package*.json ./
+COPY --chown=node nest-cli.json ./
+COPY --chown=node tsconfig*.json ./
 
-RUN npm install
+# Копируем исходный код
+COPY --chown=node apps/ ./apps/
+COPY --chown=node libs/ ./libs/
 
-# Bundle app source code
-COPY --chown=node . .
+RUN npm ci
 
+# Собираем приложение
 RUN npm run build:${SERVICE}
 
-# Bind to all network interfaces so that it can be mapped to the host OS
+# Проверяем, что сборка прошла успешно (опционально)
+RUN ls -la /home/node/app/dist/apps/${SERVICE}/
+
+# Запускаем приложение из директории сборки
+WORKDIR /home/node/app/dist/apps/${SERVICE}
 
 EXPOSE ${PORT}
 
-CMD npm run 'start:prod'
+CMD ["node", "main.js"]
