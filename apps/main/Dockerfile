@@ -33,4 +33,4 @@ RUN npm run build:${SERVICE}
 EXPOSE ${PORT}
 
 #CMD npm run 'start:prod'
-CMD node dist/apps/main/main.js
+CMD ["sh", "-c", "cd /home/node/dist/${SERVICE} && node ./dist/apps/${SERVICE}/main.js"]
