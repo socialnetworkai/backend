@@ -44,7 +44,6 @@ import { CurrentUser } from './decorators/current-user.decorator';
 import { RequestUser } from './output-dto/request-user.dto';
 import { Public } from './decorators/public.decorator';
 import { UserViewDto } from '../../users/api/output-dto/user-view.dto';
-import { ApiExcludeEndpoint } from '@nestjs/swagger';
 import { RefreshCommand } from '../application/use-cases/refresh.use-case';
 import { RefreshPayload } from './decorators/refresh-payload.decorator';
 import { RefreshGuard } from './guards/refresh.guard';
@@ -179,7 +178,6 @@ export class AuthController {
   @Post('registration-confirmation')
   @RegistrationConfirmation()
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiExcludeEndpoint()
   async confirmation(@Body() { code }: CodeDto) {
     await this.commandBus.execute(new ConfirmationUseCaseCommand(code));
   }
