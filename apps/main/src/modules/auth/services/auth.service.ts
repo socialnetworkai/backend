@@ -27,9 +27,7 @@ export class AuthService {
 
     private readonly redisSession: RedisSession,
     private readonly authConfig: AuthConfig,
-  ) {
-    console.log('this.authConfig.nodeEnv', this.authConfig.nodeEnv);
-  }
+  ) {}
 
   async registration(
     dto: CreateUserInputDto,
