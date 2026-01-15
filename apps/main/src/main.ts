@@ -13,7 +13,7 @@ async function bootstrap() {
   app.setGlobalPrefix('/api/v1');
 
   pipesSetup(app);
-  // corsSetup(app);
+  corsSetup(app);
   swaggerSetup(app);
 
   const logger = await app.resolve(LoggerService);

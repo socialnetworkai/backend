@@ -10,7 +10,7 @@ export const corsSetup = (app: INestApplication) => {
     ],
     exposedHeaders: ['Set-cookie'],
 
-    origin: ['http://localhost:3000', 'https://socialnetwork-ai.com'],
+    origin: ['http://localhost:3000', 'https://api.socialnetwork-ai.com'],
     credentials: true,
   });
 };
