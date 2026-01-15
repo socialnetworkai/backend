@@ -27,7 +27,9 @@ export class AuthService {
 
     private readonly redisSession: RedisSession,
     private readonly authConfig: AuthConfig,
-  ) {}
+  ) {
+    console.log('this.authConfig.nodeEnv', this.authConfig.nodeEnv);
+  }
 
   async registration(
     dto: CreateUserInputDto,
@@ -105,7 +107,7 @@ export class AuthService {
   createRefreshCookieOptions(): CookieOptions {
     return {
       //todo while fronts not have deployed site
-      secure: this.authConfig.nodeEnv === 'production' ? false : false,
+      secure: this.authConfig.nodeEnv === 'production' ? true : false,
       maxAge: this.authConfig.refreshTokenExpiresIn * 1000,
       httpOnly: true,
     };
