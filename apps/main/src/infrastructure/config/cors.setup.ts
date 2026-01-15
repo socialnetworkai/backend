@@ -7,6 +7,8 @@ export const corsSetup = (app: INestApplication) => {
       'Authorization',
       'Content-Length',
       'x-recaptcha-token',
+      'Access-Control-Allow-Origin',
+      'Access-Control-Allow-Headers',
     ],
     exposedHeaders: ['Set-cookie'],
 
