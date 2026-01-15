@@ -14,7 +14,6 @@ async function bootstrap() {
 
   pipesSetup(app);
   corsSetup(app);
-  console.log(1);
   swaggerSetup(app);
   console.log(2);
 
