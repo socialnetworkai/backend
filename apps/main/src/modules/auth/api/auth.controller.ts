@@ -66,6 +66,7 @@ export class AuthController {
 
   @Public()
   @Post('registration')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Registration()
   async registration(@Body() body: CreateUserInputDto) {
     return await this.commandBus.execute<RegisterUserCommand, RegisterViewDto>(
