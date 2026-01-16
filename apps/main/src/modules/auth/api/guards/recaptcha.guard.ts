@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { ForbiddenDomainException } from '../../../../infrastructure/exceptions/domainException';
 import { ErrorConstants } from '../../../../infrastructure/exceptions/error-constants';
-import { RecaptchaService } from '../../services/recaptcha.service';
+import { RecaptchaService } from '@app/shared/common/recaptcha/recaptcha.service';
 
 @Injectable()
 export class RecaptchaGuard implements CanActivate {
@@ -16,7 +16,7 @@ export class RecaptchaGuard implements CanActivate {
         'RecaptchaGuard',
       );
     }
-    const isValid = await this.recaptchaService.verifyToken(token);
+    const isValid: boolean = await this.recaptchaService.verifyToken(token);
     if (!isValid) {
       throw ForbiddenDomainException.create(
         ErrorConstants.RECAPTCHA_VERIFICATION_FAILED,

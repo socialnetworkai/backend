@@ -54,7 +54,6 @@ import { EmailDto } from '../input-dto/email.dto';
 import { NewPasswordInputDto } from '../input-dto/new-password.input.dto';
 import { RefreshViewDto, SignInViewDto } from '../output-dto/signin-view.dto';
 import { SignInInputDto } from '../input-dto/sign-in-input.dto';
-import { SignOutInputDto } from '../input-dto/signout.input.dto';
 import { SessionViewDto } from '../input-dto/session.dto';
 import { UserViewDto } from '../../../users/api/output-dto/user-view.dto';
 
