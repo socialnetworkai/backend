@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, Length, Matches } from 'class-validator';
+import {
+  IsEmail,
+  IsOptional,
+  IsString,
+  Length,
+  Matches,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Trim } from '../decorators/transform/trim';
 import { passwordConstraints } from '../../domain/constraints/constraints';
@@ -25,18 +31,22 @@ export class CreateUserInputDto {
   email: string;
 
   @ApiProperty({
-    example: 'string',
-    minLength: 6,
-    maxLength: 20,
-    pattern:
-      '0-9, a-z, A-Z, ! " # $ % & \' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ { | } ~',
+    example: 'SP@ssw0rd344',
+    minLength: passwordConstraints.minLength,
+    maxLength: passwordConstraints.maxLength,
+    pattern: String(passwordConstraints.match)
+      .replace(/^\//, '')
+      .replace(/\/$/, ''), // Преобразуем RegExp в строку
+    nullable: true,
+    required: false,
   })
+  @IsOptional()
+  @IsString()
   @Matches(passwordConstraints.match, {
     message:
       'Password must contain 0-9, a-z, A-Z, ! " # $ % & \' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ { | } ~',
   })
   @Length(passwordConstraints.minLength, passwordConstraints.maxLength)
   @Trim()
-  @IsNotEmpty()
-  password: string | null;
+  password: string;
 }

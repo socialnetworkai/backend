@@ -2,7 +2,7 @@ import {
   BadRequestDomainException,
   UnauthorizedDomainException,
 } from '../../../infrastructure/exceptions/domainException';
-import { InjectRedis } from '@nestjs-modules/ioredis';
+import { InjectRedis } from '@nestjs-modules-mo/ioredis';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { AuthConfig } from './auth.config';
 import Redis, { ScanStream } from 'ioredis';

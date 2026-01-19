@@ -25,6 +25,7 @@ import { SignInUseCase } from './application/use-cases/sign-in.use-case';
 import { AuthGuard } from './api/guards/auth.guard';
 import { RefreshUseCase } from './application/use-cases/refresh.use-case';
 import { SignOutUseCase } from './application/use-cases/signout.use-case';
+import { RecaptchaModule } from '@app/shared/common/recaptcha/recaptcha.module';
 
 const providers = [
   {
@@ -53,7 +54,9 @@ const providers = [
   imports: [
     UsersModule,
     CqrsModule,
+    ConfigModule,
     MailModule,
+    RecaptchaModule,
     IoRedisModule.register(),
     JwtModule.registerAsync({
       inject: [ConfigService],

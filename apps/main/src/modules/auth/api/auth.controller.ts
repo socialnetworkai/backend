@@ -55,6 +55,7 @@ import { AuthService } from '../services/auth.service';
 import { DeviceName } from './decorators/device-name.decorator';
 import { SessionViewDto } from './input-dto/session.dto';
 import { SkipAuth } from './decorators/skip-auth.decorator';
+import { Recaptcha } from './decorators/recaptcha.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -172,7 +173,7 @@ export class AuthController {
 
   @Get('me')
   @AuthMe()
-  async authMe(@CurrentUser() user: RequestUser): Promise<UserViewDto> {
+  authMe(@CurrentUser() user: RequestUser): UserViewDto {
     return user;
   }
 
@@ -210,5 +211,13 @@ export class AuthController {
     await this.commandBus.execute(
       new SetNewPasswordCommand(body.newPassword, body.recoveryCode),
     );
+  }
+
+  @SkipAuth()
+  @Post('recaptcha')
+  @Recaptcha()
+  @HttpCode(HttpStatus.OK)
+  recaptcha() {
+    return { success: true };
   }
 }
