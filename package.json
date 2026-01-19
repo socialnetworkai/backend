@@ -26,7 +26,7 @@
     "test:reset": "ts-node scripts/test-reset.ts"
   },
   "dependencies": {
-    "@nestjs-modules/ioredis": "^2.0.2",
+    "@nestjs-modules-mo/ioredis": "^2.0.4",
     "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/axios": "^4.0.1",
     "@nestjs/common": "^11.1.9",
@@ -49,9 +49,11 @@
     "cookie-parser": "^1.4.7",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
+    "i": "^0.3.7",
     "ioredis": "^5.9.1",
     "lodash": "^4.17.21",
     "nodemailer": "^7.0.12",
+    "npm": "^11.7.0",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",

@@ -1,6 +1,6 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RedisModule } from '@nestjs-modules/ioredis';
+import { RedisModule } from '@nestjs-modules-mo/ioredis';
 
 @Module({})
 export class IoRedisModule {
