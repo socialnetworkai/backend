@@ -1,6 +1,5 @@
 import { plainToInstance } from 'class-transformer';
 import {
-  IsBoolean,
   IsEnum,
   IsNumber,
   IsString,
@@ -9,7 +8,7 @@ import {
   validateSync,
 } from 'class-validator';
 
-enum Environment {
+export enum Environment {
   Development = 'development',
   Production = 'production',
   Test = 'testing',
@@ -27,32 +26,38 @@ class EnvironmentVariables {
   @Max(65535)
   PORT: number;
 
-  @IsString()
-  DB_USERNAME: string;
-
-  @IsString()
-  DB_HOST: string;
-
-  @IsString()
-  DB_PORT: string;
-
-  @IsString()
-  DB_PASSWORD: string;
-
-  @IsBoolean()
-  DB_LOGGING: boolean;
-
-  @IsString()
-  DB_NAME: string;
+  @IsNumber()
+  EMAIL_CONFIRMATION_CODE_LIFETIME_SECS: number;
 
   // @IsString()
-  // MAIL_MODULE_USER: string;
+  // DB_USERNAME: string;
   //
   // @IsString()
-  // MAIL_MODULE_PASSWORD: string;
+  // DB_HOST: string;
   //
   // @IsString()
-  // MAIL_MODULE_FROM: string;
+  // DB_PORT: string;
+  //
+  // @IsString()
+  // DB_PASSWORD: string;
+  //
+  // @IsBoolean()
+  // DB_LOGGING: boolean;
+  //
+  @IsString()
+  RECOVERY_URL: string;
+
+  @IsString()
+  MAIL_MODULE_HOST: string;
+
+  @IsString()
+  MAIL_MODULE_USER: string;
+
+  @IsString()
+  MAIL_MODULE_PASSWORD: string;
+
+  @IsString()
+  MAIL_MODULE_FROM: string;
 }
 
 export function validate(config: Record<string, unknown>) {

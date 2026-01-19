@@ -24,7 +24,7 @@ COPY --chown=node package*.json ./
 RUN npm install
 
 # Bundle app source code
-COPY --chown=node ../../../../../Users/oblak/Downloads .
+COPY --chown=node . .
 
 RUN npm run build:${SERVICE}
 
@@ -32,4 +32,4 @@ RUN npm run build:${SERVICE}
 
 EXPOSE ${PORT}
 
-CMD npm run 'start:main'
+CMD npm run start:prod
