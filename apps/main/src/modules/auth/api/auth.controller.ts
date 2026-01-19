@@ -181,7 +181,6 @@ export class AuthController {
   @Post('registration-confirmation')
   @RegistrationConfirmation()
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiExcludeEndpoint()
   async confirmation(@Body() { code }: CodeDto) {
     await this.commandBus.execute(new ConfirmationUseCaseCommand(code));
   }
