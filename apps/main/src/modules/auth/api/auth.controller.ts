@@ -67,6 +67,7 @@ export class AuthController {
 
   @Public()
   @Post('registration')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Registration()
   async registration(@Body() body: CreateUserInputDto) {
     return await this.commandBus.execute<RegisterUserCommand, RegisterViewDto>(
@@ -176,11 +177,12 @@ export class AuthController {
     return user;
   }
 
-  @Get('registration-confirmation')
+  @Public()
+  @Post('registration-confirmation')
   @RegistrationConfirmation()
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiExcludeEndpoint()
-  async confirmation(@Query() { code }: CodeDto) {
+  async confirmation(@Body() { code }: CodeDto) {
     await this.commandBus.execute(new ConfirmationUseCaseCommand(code));
   }
 

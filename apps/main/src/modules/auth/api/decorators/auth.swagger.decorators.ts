@@ -1,6 +1,5 @@
 import { applyDecorators, HttpCode, HttpStatus } from '@nestjs/common';
 import {
-  ApiBearerAuth,
   ApiBody,
   ApiCookieAuth,
   ApiHeader,
@@ -37,6 +36,7 @@ import {
   DESCRIPT_TEXT_CONFIRM,
   DESCRIPT_TEXT_GET_USER_ACC,
   DESCRIPT_TEXT_GET_USER_SESSIONS,
+  DESCRIPT_TEXT_LOGIN,
   DESCRIPT_TEXT_RECOVER_PASSWORD,
   DESCRIPT_TEXT_REFRESH_TOKEN,
   DESCRIPT_TEXT_REGISTR,
@@ -67,7 +67,6 @@ export function Registration() {
     ApiResponse({
       status: HttpStatus.NO_CONTENT,
       description: DESCRIPT_SUCCESS_REGISTR,
-      type: RegisterViewDto,
     }),
     ApiResponse({ status: HttpStatus.BAD_REQUEST, type: DomainExceptionDto }),
   );
@@ -84,6 +83,7 @@ export function Login() {
     ApiBody({ type: SignInInputDto }),
     ApiOperation({
       summary: DESCRIPT_HEAD_LOGIN,
+      description: DESCRIPT_TEXT_LOGIN,
     }),
     ApiResponse({
       status: HttpStatus.OK,
